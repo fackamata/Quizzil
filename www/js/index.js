@@ -1,0 +1,340 @@
+// import Quizz from "quizz";
+
+const DISPLAY = document.getElementById("display");
+const API = "https://quizapi.io/api/v1/";
+const API_KEY = "?apiKey=x622ubZyhNZIsj9lcaKCLNgvX337L6o6I4bIVxjW";
+const QUESTION = document.getElementById("question");
+
+
+// alert no connection
+const ALERT_NO_CONNECTION = document.getElementById("alert-no-connection");
+// les 3 boutons dans le footer 
+const BTN_QUIZZ = document.getElementById("btn-quizz");
+const BTN_HOME = document.getElementById("btn-home");
+const BTN_STAT = document.getElementById("btn-statistic");
+// bouton de la section quizz
+const BTN_CHOICE_ALL_CAT = document.getElementById("choice-all-cat");
+// const ANSWER_A = document.getElementById("answer_a");
+// const ANSWER_B = document.getElementById("answer_b");
+// const ANSWER_C = document.getElementById("answer_c");
+// const ANSWER_D = document.getElementById("answer_d");
+// const ANSWER_E = document.getElementById("answer_e");
+// const ANSWER_F = document.getElementById("answer_f");
+// const HINT = document.getElementById("hint");
+// const NEXT_QUESTION = document.getElementById("next-question");
+
+document.addEventListener('deviceready', onDeviceReady, false);
+
+function onDeviceReady() {
+  // document.getElementById("btn_cat").style.display = "inline";
+  console.log("on device ready");
+  // init localStorage
+
+  // bouton du footer
+  BTN_QUIZZ.addEventListener("click", display_quizz_section)
+  BTN_STAT.addEventListener("click", display_stats_section)
+  BTN_HOME.addEventListener("click", display_home_section)
+  // bouton de selection de quizz
+  // bouton toute categorie
+  BTN_CHOICE_ALL_CAT.addEventListener("click", function(){
+    let quests = get_questions(20);
+    let lst_quest = save_question(quests);
+    
+    let quizz_questions = new Object;
+    for (let i = 0; i < lst_quest.length; i++) {
+      const I = lst_quest[i];
+      get_questions_from_localStorage(lst_quest);
+    }
+})
+  
+  // bouton de la section quizz
+  // HINT.addEventListener("click", display_hint);
+
+
+  document.getElementById("categories_btn").addEventListener("click", display_categories);
+  document.getElementById("tag_btn").addEventListener("click", display_tags);
+  document.getElementById("check_btn").addEventListener("click", checkConnection);
+
+}
+
+// checkConnection();
+
+
+
+/*
+Affiche les tags
+*/
+async function display_tags() {
+  console.log(" ! on display cate!");
+  QUESTION.innerHTML = "";
+
+  let json = await get_tags();
+  console.log(json);
+  // let object = JSON.stringify(json);  // type objet
+  let tags = JSON.parse(json);  // type objet
+
+
+  let tagsArray = [];
+
+  tags.forEach(tag => {
+    // console.log(tags.name)
+
+    tagsArray.push(
+      {
+        html: `
+                <div>
+                  <input type="checkbox" name="${tag.name}"/>
+                  <label for="${tag.name}">${tag.name}</label>
+                </div>
+              `,
+      }
+    );
+  });
+
+  tagsArray.forEach(function (tags) {
+    QUESTION.innerHTML += tags.html;
+  })
+}
+I
+/**
+ * enregistre des questions dans le localStorage s'il elle n'y sont pas déjà
+ * retourne la liste des id questions envoyé à la fonction
+ * 
+ * @param {object} questions json de question
+ * @returns {Array} last_questions liste des id des questions
+ */
+async function save_question(questions) {
+  console.log(" ! in save question!");
+  
+  let last_questions = [];
+  // init localStorage
+  if (localStorage.getItem('lst_id_question') == null) {
+    localStorage.setItem('lst_id_question', JSON.stringify([]))
+  }
+  // if (localStorage.getItem('question_api') == null) {
+      // let q_tes = {};
+  //   let q_tes = {
+  //     "id": -1,
+  //     "question": "Question de test",
+  //     "description": "Question pour initialiser le localStorage.",
+  //     "answers": {
+  //         "answer_a": "pas important",
+  //         "answer_b": "pas important b",
+  //         "answer_c": "pas important c",
+  //         "answer_d": "pas important d",
+  //         "answer_e": "pas important e",
+  //         "answer_f": "pas important e"
+  //     },
+  //     "multiple_correct_answers": "false",
+  //     "correct_answers": {
+  //         "answer_a_correct": "false",
+  //         "answer_b_correct": "true",
+  //         "answer_c_correct": "false",
+  //         "answer_d_correct": "false",
+  //         "answer_e_correct": "false",
+  //         "answer_f_correct": "false"
+  //     },
+  //     "correct_answer": null,
+  //     "explanation": "Une explication à la réponse d'une question.",
+  //     "tip": null,
+  //     "tags": [
+  //         {
+  //             "name": "Test"
+  //         }
+  //     ],
+  //     "category": "Test",
+  //     "difficulty": "Hard"
+  //   }
+  //   // localStorage.setItem('question_api', JSON.stringify(q_tes));
+    // localStorage.setItem('question_api', JSON.stringify(q_tes));
+  // }
+
+  // get question;
+  let json_question = await get_questions();
+  questions = JSON.parse(json_question);  // type objet
+  // let questions = JSON.parse(json_question);  // type objet
+  // console.log(questions);
+  
+  // list des id des questions déjà dans le localstorage 
+  let lst_id_question = JSON.parse(localStorage.getItem('lst_id_question')) ;
+  // let question_in_storage = JSON.parse(localStorage.getItem('question_api'));
+  
+  // on parcour les questions reçu par l'api et on sauvegarde celle qu'on as pas
+  for (let i = 0; i < questions.length; i++) {
+    // on ajouter les questions non encore présente dans le localStorage
+    if ( ! lst_id_question.includes(questions[i].id) ) {
+      // on ajoute la questions avec comme clé son id
+      localStorage.setItem(questions[i].id, JSON.stringify(questions[i]));
+      // on enregistre l'id dans notre liste d'id en storage
+      lst_id_question.push(questions[i].id);
+      console.log(questions[i]);
+      
+    }
+    last_questions.push(questions[i].id);
+  }
+
+  // enregistrement dans le localStorage de la liste d'id
+  localStorage.setItem('lst_id_question', JSON.stringify(lst_id_question));
+
+  console.log("last question liste : " + last_questions);
+  return last_questions;
+}
+
+
+function get_questions_from_localStorage(lst_of_id){
+  let obj = localStorage.getItem('question_api');
+  console.log(obj);
+  // return 
+}
+
+
+// function save_in_localstorage(){
+
+// }
+
+/*
+Affiche les différentes catégories
+*/
+async function display_categories() {
+  console.log(" ! on display cate!");
+  QUESTION.innerHTML = "";
+
+  let json = await get_categories();
+  // let object = JSON.stringify(json);  // type objet
+  let categories = JSON.parse(json);  // type objet
+
+  console.log(typeof (categories));
+
+  let categoriesArray = [];
+
+  categories.forEach(category => {
+    // console.log(categories.name)
+
+    categoriesArray.push(
+      {
+        html: `
+                <div>
+                  <input type="checkbox" name="${category.name}"/>
+                  <label for="${category.name}">${category.name}</label>
+                </div>
+              `,
+      }
+    )
+  });
+
+  categoriesArray.forEach(function (categories) {
+    QUESTION.innerHTML += categories.html;
+  });
+}
+
+/*
+Récupérer les catégories disponibles
+
+return: liste des catégories
+*/
+function get_categories() {
+  console.log(" ! on get categories !");
+  let param = "categories";
+  let url = `${API}${param}${API_KEY}`;
+  // let url = "data/categories.json";
+  // console.log("url : " + url);
+  return fetch_data(url);
+}
+
+/*
+Récupérer les tags disponibles
+
+return: liste des tags
+*/
+function get_tags() {
+  // console.log(" ! on get tags !");
+  let param = "tags";
+  let url = `${API}${param}${API_KEY}`;
+  // let url = "data/tags.json";
+  // console.log("url : " + url);
+  return fetch_data(url);
+}
+
+/**
+ * Returns questions, json de 20 questions par défaut.
+ *
+ * @param {integer} lim nombre de question à retourner.
+ * @return {json} questions json de question.
+ */
+function get_questions(lim=20) {
+  // console.log(" ! on get random !");
+  let param = "questions";
+  let limit = `&limit=${lim}`;
+
+  let url = `${API}${param}${API_KEY}${limit}`;
+  // console.log("url : " + url);
+  questions = fetch_data(url);
+
+  return questions;
+}
+
+/*
+appelle une api dont l'url est passé en parramètre
+
+params: url (str)   -> nombre de questions retournées
+return: résultat du endpoint
+*/
+async function fetch_data(url) {
+  try {
+    let response = await fetch(url);
+    let result = await response.text();
+    // console.log(result);
+    return result;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+function onPause() {
+
+  console.log("onPause");
+
+}
+
+/**
+ * Display alert if no connection
+ *
+ */
+function checkConnection() {
+  var networkState = navigator.connection.type;
+
+  var states = {};
+  states[Connection.UNKNOWN]  = 'Unknown connection';
+  states[Connection.ETHERNET] = 'Ethernet connection';
+  states[Connection.WIFI]     = 'WiFi connection';
+  states[Connection.CELL_2G]  = 'Cell 2G connection';
+  states[Connection.CELL_3G]  = 'Cell 3G connection';
+  states[Connection.CELL_4G]  = 'Cell 4G connection';
+  states[Connection.CELL]     = 'Cell generic connection';
+  states[Connection.NONE]     = 'No network connection';
+
+  if (states[networkState] == states[Connection.NONE]) {
+    // console.log("ON DOIT METTRE LE WIFI OU LES DONNÉES");
+    ALERT_NO_CONNECTION.classList.remove("d-none");
+    // TODO désactiver les bontons qui ont besoin d'un accès wifi
+  } else  {
+    ALERT_NO_CONNECTION.classList.add("d-none");  
+    // TODO réactiver les bontons qui ont besoin d'un accès wifi
+    // console.log("Connection type : " + states[networkState]);
+    // console.log(states[networkState]);
+  }
+}
+
+
+function chck_permission(){
+  let permissions = cordova.plugins.permissions;
+  permissions.hasPermission(permissions.ACCESS.WIFI.STATE, function( status ){
+    if ( status.hasPermission ) {
+      console.log("Yes :D ");
+    }
+    else {
+      console.warn("No :( ");
+    }
+  });
+}

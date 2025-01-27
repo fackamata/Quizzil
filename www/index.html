@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, please refer to the docs:
+            https://cordova.apache.org/docs/en/latest/
+        Some notes:
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+                content="default-src 'self'; connect-src 'self' https://quizapi.io;">
+                content="default-src 'self'; connect-src 'self' https://api.chucknorris.io;">
+        -->
+        
+        <meta
+          http-equiv="Content-Security-Policy"
+          content="default-src 'self'; connect-src 'self' https://quizapi.io;">
+          <!-- content="default-src 'self'; connect-src 'self' https://api.chucknorris.io;"> -->
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+        <meta name="color-scheme" content="light">
+        <!-- <meta name="color-scheme" content="light dark"> -->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/index.css">
+        
+        <script defer src="cordova.js"></script>
+        <script defer src="js/display.js"></script>
+        <script defer src="js/quizz.js"></script>
+        <script defer src="js/index.js"></script>
+        <script defer src="js/bootstrap.min.js"></script>
+
+        <title>Quizzil</title>
+    </head>
+    <body>
+        <main class="app container bg-light">
+            <header>
+                <h1 class="h1 bg-light text-center">Quizzil</h1>
+            </header>
+            
+            <!-- 
+                
+                    élément nécessaire  à l'affichage de la page d'accueil
+                    
+                    
+            -->
+            <section id="home-section">
+                <h2>Faite votre choix</h2>
+
+                <input type="button" class="btn btn-outline-info" value="choix categorie" id="categories_btn">
+                <input type="button" class="btn btn-outline-info" value="quizz" id="quizz_btn">
+                <input type="button" class="btn btn-outline-info" value="check" id="check_btn">
+                <input type="button" class="btn btn-outline-info" value="tag" id="tag_btn">
+                <input type="button" class="btn btn-outline-info" value="random" id="random_btn">
+                
+            </section>
+            <aside class="d-none alert alert-danger" id="alert-no-connection" role="alert">
+                Aucune connection internet - accès limité à l'application
+              </aside>
+            <!-- 
+                
+            élément nécessaire  à l'affichage du quizz 
+            
+            
+        -->
+        
+                    <!-- <div class="quizz">
+                      <h1>Quizz</h1>
+                      <div id="question"></div>
+                      <div id="option"></div>
+                      <div id="hint"></div>
+                      <button onclick="checkAns()" id="validation">valider</button> -->
+                      <!-- <button id="validation">valider</button>
+                      <div id="score"></div>
+                    </div> -->
+        
+            <section id="quizz-section" class="d-none">
+                <!-- affichage des bouton de sélection de quizz -->
+                 <header id="question-header"></header>
+                 <article id="view-select-quizz">
+                    <h2>
+                        <menu class="list-group">
+                            <li id="choice-all-cat" 
+                            class="list-group-item d-flex justify-content-around">
+                                <p>Toutes categories</p>
+                                <button class="btn btn-outline-success">Play</button>
+                            </li>
+                            <li id="choice_linux" class="list-group-item">
+                                <p>linux</p>
+                                <button class="btn btn-outline-success">Play</button>
+                            </li>
+                        </menu>
+                    </h2>
+                 </article>
+                <!-- affichage de la question -->
+                <article id="view-question" class="d-none card">
+                    <h2 class="h2 card-header" id="question">
+                    </h2>
+
+                    <form class="form-check">
+                        
+                        <li class="list-group-item d-none" >
+                            <label  id="answer_a_display" 
+                                    class="form-check-label" 
+                                    for="ans_a">
+                            </label>
+                            <input  id="answer_a" 
+                                    class="form-check-input" 
+                                    type="radio" 
+                                    name="ans_a" checked>
+                        </li>
+                        <li class="list-group-item d-none" >
+                            <label  id="answer_b_display" 
+                                    class="form-check-label" 
+                                    for="ans_b">
+                            </label>
+                            <input  id="answer_b" 
+                                    class="form-check-input" 
+                                    type="radio" 
+                                    name="ans_b">
+                        </li>
+                        <li class="list-group-item d-none" >
+                            <label  id="answer_c_display" 
+                                    class="form-check-label" 
+                                    for="ans_c">
+                            </label>
+                            <input  id="answer_c" 
+                                    class="form-check-input" 
+                                    type="radio" 
+                                    name="ans_c">
+                        </li>
+                        <li class="list-group-item d-none" >
+                            <label  id="answer_d_display" 
+                                    class="form-check-label" 
+                                    for="ans_d">
+                            </label>
+                            <input  id="answer_d" 
+                                    class="form-check-input" 
+                                    type="radio" 
+                                    name="ans_d">
+                        </li>
+                        <li class="list-group-item d-none" >
+                            <label  id="answer_e_display" 
+                                    class="form-check-label" 
+                                    for="ans_e">
+                            </label>
+                            <input  id="answer_e" 
+                                    class="form-check-input" 
+                                    type="radio" 
+                                    name="ans_e">
+                        </li>
+                        <li class="list-group-item d-none" >
+                            <label  id="answer_f_display" 
+                                    class="form-check-label" 
+                                    for="ans_f">
+                            </label>
+                            <input  id="answer_f" 
+                                    class="form-check-input" 
+                                    type="radio" 
+                                    name="ans_f">
+                        </li>
+      
+                      <li id="hint" class="d-none list-group-item list-group-item-info"></li>
+                    </menu>
+
+                    <button id="next-question" class="d-none">Question suivante</button>
+                </article>
+                <!-- <article id="question" class=""></article> -->
+                <!-- <article>
+                    <ul id="answer">
+
+                    </ul>
+                </article> -->
+                       
+                <!-- validation de la réponse -->
+                <!-- mauvaise réponse -->
+                <div class="bg-info bg-gradient" id="display_good_answer"></div>
+                <div class="bg-warning bg-gradient" id="bad_answer"></div>
+                
+                <!-- bonne réponse -->
+                <div class="bg-success bg-gradient" id="good_answer"></div>
+            </section>
+
+            <!-- 
+
+            élément nécessaire  à l'affichage de la page de statistique
+
+
+            -->
+            <section id="statistic-section" class="d-none">
+
+            </section>
+
+        <footer>
+            <ul class="d-flex justify-content-evenly">
+                <li class="d-flex flex-column">
+                    <svg id="btn-statistic"
+                        xmlns="http://www.w3.org/2000/svg" 
+                        width="16" height="16" 
+                        fill="currentColor" class="bi bi-graph-up" 
+                        viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07"/>
+                    </svg>
+                </li>
+                <li class="d-flex flex-column">
+                    <svg id="btn-home"
+                        xmlns="http://www.w3.org/2000/svg" 
+                        width="16" height="16" 
+                        fill="currentColor" class="bi bi-house" 
+                        viewBox="0 0 16 16">
+                        <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+                    </svg>
+                </li>
+                <li class="d-flex flex-column">
+                    <svg id="btn-quizz"
+                        xmlns="http://www.w3.org/2000/svg" width="16"
+                        height="16" fill="currentColor" 
+                        class="bi bi-question-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M4.475 5.458c-.284 0-.514-.237-.47-.517C4.28 3.24 5.576 2 7.825 2c2.25 0 3.767 1.36 3.767 3.215 0 1.344-.665 2.288-1.79 2.973-1.1.659-1.414 1.118-1.414 2.01v.03a.5.5 0 0 1-.5.5h-.77a.5.5 0 0 1-.5-.495l-.003-.2c-.043-1.221.477-2.001 1.645-2.712 1.03-.632 1.397-1.135 1.397-2.028 0-.979-.758-1.698-1.926-1.698-1.009 0-1.71.529-1.938 1.402-.066.254-.278.461-.54.461h-.777ZM7.496 14c.622 0 1.095-.474 1.095-1.09 0-.618-.473-1.092-1.095-1.092-.606 0-1.087.474-1.087 1.091S6.89 14 7.496 14"/>
+                    </svg>
+                </li>
+            </ul>
+        </footer>
+        </main>
+        <!-- <script src="js/quizz.js"></script> -->
+    </body>
+</html>
