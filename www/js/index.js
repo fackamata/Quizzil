@@ -111,43 +111,6 @@ async function save_question(questions) {
   if (localStorage.getItem('lst_id_question') == null) {
     localStorage.setItem('lst_id_question', JSON.stringify([]))
   }
-  // if (localStorage.getItem('question_api') == null) {
-      // let q_tes = {};
-  //   let q_tes = {
-  //     "id": -1,
-  //     "question": "Question de test",
-  //     "description": "Question pour initialiser le localStorage.",
-  //     "answers": {
-  //         "answer_a": "pas important",
-  //         "answer_b": "pas important b",
-  //         "answer_c": "pas important c",
-  //         "answer_d": "pas important d",
-  //         "answer_e": "pas important e",
-  //         "answer_f": "pas important e"
-  //     },
-  //     "multiple_correct_answers": "false",
-  //     "correct_answers": {
-  //         "answer_a_correct": "false",
-  //         "answer_b_correct": "true",
-  //         "answer_c_correct": "false",
-  //         "answer_d_correct": "false",
-  //         "answer_e_correct": "false",
-  //         "answer_f_correct": "false"
-  //     },
-  //     "correct_answer": null,
-  //     "explanation": "Une explication à la réponse d'une question.",
-  //     "tip": null,
-  //     "tags": [
-  //         {
-  //             "name": "Test"
-  //         }
-  //     ],
-  //     "category": "Test",
-  //     "difficulty": "Hard"
-  //   }
-  //   // localStorage.setItem('question_api', JSON.stringify(q_tes));
-    // localStorage.setItem('question_api', JSON.stringify(q_tes));
-  // }
 
   // get question;
   let json_question = await get_questions();
