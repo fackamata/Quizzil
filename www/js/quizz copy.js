@@ -12,7 +12,6 @@ btnDur.addEventListener("click", function(){
 
     objGameDur.playGame()
 })
-isMember ? '$2.00' : '$10.00';
 
 class Quizz {
 

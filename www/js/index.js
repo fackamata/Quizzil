@@ -35,17 +35,24 @@ function onDeviceReady() {
   BTN_STAT.addEventListener("click", display_stats_section)
   BTN_HOME.addEventListener("click", display_home_section)
   // bouton de selection de quizz
+  // NEXT_QUESTION.addEventListener("click", increment_id_question)
   // bouton toute categorie
-  BTN_CHOICE_ALL_CAT.addEventListener("click", function(){
-    let quests = get_questions(20);
-    let lst_quest = save_question(quests);
+
+  BTN_CHOICE_ALL_CAT.addEventListener("click", start_quizz)
+//   BTN_CHOICE_ALL_CAT.addEventListener("click", async function(){
+//     let quests = await get_questions(20);
+//     // console.log(quests);
+//     // console.log(typeof(quests));
+//     let lst_quest = save_question(quests);
     
-    let quizz_questions = new Object;
-    for (let i = 0; i < lst_quest.length; i++) {
-      const I = lst_quest[i];
-      get_questions_from_localStorage(lst_quest);
-    }
-})
+//     for (let i = 0; i < lst_quest.length; i++) {
+//       let quest_to_show = JSON.parse(localStorage.getItem(lst_quest[i]));
+//       console.log(quest_to_show);
+//       display_question(quest_to_show);
+//       console.log()
+      
+//     }
+// })
   
   // bouton de la section quizz
   // HINT.addEventListener("click", display_hint);
@@ -59,7 +66,18 @@ function onDeviceReady() {
 
 // checkConnection();
 
-
+async function start_quizz(){
+  console.log("start quizz fonctionne  ! ")
+  let quests = await get_questions(20);
+  let lst_quest = save_question(quests);
+  
+  for (let i = 0; i < lst_quest.length; i++) {
+    let quest_to_show = JSON.parse(localStorage.getItem(lst_quest[i]));
+    console.log(quest_to_show);
+    display_question(quest_to_show);
+    console.log()
+  }
+}
 
 /*
 Affiche les tags
@@ -103,7 +121,7 @@ I
  * @param {object} questions json de question
  * @returns {Array} last_questions liste des id des questions
  */
-async function save_question(questions) {
+function save_question(questions) {
   console.log(" ! in save question!");
   
   let last_questions = [];
@@ -112,11 +130,7 @@ async function save_question(questions) {
     localStorage.setItem('lst_id_question', JSON.stringify([]))
   }
 
-  // get question;
-  let json_question = await get_questions();
-  questions = JSON.parse(json_question);  // type objet
-  // let questions = JSON.parse(json_question);  // type objet
-  // console.log(questions);
+  questions = JSON.parse(questions);  // type objet
   
   // list des id des questions déjà dans le localstorage 
   let lst_id_question = JSON.parse(localStorage.getItem('lst_id_question')) ;
@@ -144,11 +158,10 @@ async function save_question(questions) {
 }
 
 
-function get_questions_from_localStorage(lst_of_id){
-  let obj = localStorage.getItem('question_api');
-  console.log(obj);
-  // return 
-}
+// function get_questions_from_localStorage(id){
+//   return localStorage.getItem('question_api');
+//   // return 
+// }
 
 
 // function save_in_localstorage(){
