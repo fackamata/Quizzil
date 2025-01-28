@@ -43,14 +43,23 @@ async function start_quizz(){
     let quests = await get_questions(20);
     let lst_quest = save_question(quests);
     
-
+    let quest_to_show = JSON.parse(localStorage.getItem(lst_quest));
+    // let num_quest = 0;
     for (let i = 0; i < lst_quest.length; i++) {
-      let quest_to_show = JSON.parse(localStorage.getItem(lst_quest[i]));
-      console.log(quest_to_show);
-      display_question(quest_to_show);
+      // const element = lst_quest[i];
+      console.log(num_quest);
+      console.log(quest_to_show[num_quest])
+      display_question(quest_to_show[num_quest])
 
-      console.log()
+      
     }
+    // for (let i = 0; i < lst_quest.length; i++) {
+    //   let quest_to_show = JSON.parse(localStorage.getItem(lst_quest[i]));
+    //   console.log(quest_to_show);
+    //   display_question(quest_to_show);
+
+    //   console.log()
+    // }
   }
   
 

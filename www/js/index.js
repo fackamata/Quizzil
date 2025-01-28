@@ -37,7 +37,7 @@ function onDeviceReady() {
   // bouton de selection de quizz
   // NEXT_QUESTION.addEventListener("click", increment_id_question)
   // bouton toute categorie
-
+  var num_quest = 0;
   BTN_CHOICE_ALL_CAT.addEventListener("click", start_quizz)
 //   BTN_CHOICE_ALL_CAT.addEventListener("click", async function(){
 //     let quests = await get_questions(20);
@@ -130,7 +130,11 @@ function save_question(questions) {
     localStorage.setItem('lst_id_question', JSON.stringify([]))
   }
 
-  questions = JSON.parse(questions);  // type objet
+  try {
+    questions = JSON.parse(questions);  // type objet
+  } catch (error) {
+    alert("Vous devez activez les données ou le WIFI");
+  }
   
   // list des id des questions déjà dans le localstorage 
   let lst_id_question = JSON.parse(localStorage.getItem('lst_id_question')) ;
