@@ -16,7 +16,7 @@ const ANSWER_D = document.getElementById("answer_d");
 const ANSWER_E = document.getElementById("answer_e");
 const ANSWER_F = document.getElementById("answer_f");
 const HINT_TAG = document.getElementById("hint");
-const NEXT_QUESTION = document.getElementById("next-question");
+// const NEXT_QUESTION = document.getElementById("next-question");
 const GOOD_ANS_TAG = document.getElementById("good-answer");
 const DISPLAY_GOOD_ANS_TAG = document.getElementById("display-good-answer");
 const BAD_ANS_TAG = document.getElementById("bad-answer");
@@ -145,15 +145,20 @@ function display_question(quest){
     // on affiche les réponses possible
     let answers = quest.answers;
     
-    ANSWER_A.innerText = answers.answer_a;
-    ANSWER_B.innerText = answers.answer_b;
-    ANSWER_C.innerText = answers.answer_c;
-    ANSWER_D.innerText = answers.answer_d;
+    ANSWER_A.innerText = answers.answer_a + 
+        '<input type="radio" name="answer" value="a">';
+    ANSWER_B.innerText = answers.answer_b +
+        '<input type="radio" name="answer" value="b">';
+    ANSWER_C.innerText = answers.answer_c +
+        '<input type="radio" name="answer" value="c">';
+    ANSWER_D.innerText = answers.answer_d +
+        '<input type="radio" name="answer" value="d">';
     
     if (ANSWER_E.classList.contains("d-none")){
         if (answers.answer_e != null){
             ANSWER_E.classList.remove('d-none');
-            ANSWER_E.innerText = answers.answer_e;
+            ANSWER_E.innerText = answers.answer_e +
+            '<input type="radio" name="answer" value="e">';
         }
     } else {
         ANSWER_E.classList.add('d-none');
@@ -163,7 +168,8 @@ function display_question(quest){
 
         if (ANSWER_F.classList.contains("d-none")){
             ANSWER_F.classList.remove('d-none');
-            ANSWER_F.innerText = answers.answer_f;
+            ANSWER_F.innerText = answers.answer_f +
+            '<input type="radio" name="answer" value="f">';
         }
     } else {
         ANSWER_F.classList.add('d-none');

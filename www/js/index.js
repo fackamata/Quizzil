@@ -14,6 +14,9 @@ const BTN_HOME = document.getElementById("btn-home");
 const BTN_STAT = document.getElementById("btn-statistic");
 // bouton de la section quizz
 const BTN_CHOICE_ALL_CAT = document.getElementById("choice-all-cat");
+const NEXT_QUESTION = document.getElementById("next-question");
+const VALID_QUESTION = document.getElementById("validation-question");
+
 // const ANSWER_A = document.getElementById("answer_a");
 // const ANSWER_B = document.getElementById("answer_b");
 // const ANSWER_C = document.getElementById("answer_c");
@@ -21,7 +24,6 @@ const BTN_CHOICE_ALL_CAT = document.getElementById("choice-all-cat");
 // const ANSWER_E = document.getElementById("answer_e");
 // const ANSWER_F = document.getElementById("answer_f");
 // const HINT = document.getElementById("hint");
-// const NEXT_QUESTION = document.getElementById("next-question");
 
 document.addEventListener('deviceready', onDeviceReady, false);
 
@@ -37,7 +39,7 @@ function onDeviceReady() {
   // bouton de selection de quizz
   // NEXT_QUESTION.addEventListener("click", increment_id_question)
   // bouton toute categorie
-  var num_quest = 0;
+  // var num_quest = 0;
   BTN_CHOICE_ALL_CAT.addEventListener("click", start_quizz)
 //   BTN_CHOICE_ALL_CAT.addEventListener("click", async function(){
 //     let quests = await get_questions(20);
@@ -67,16 +69,62 @@ function onDeviceReady() {
 // checkConnection();
 
 async function start_quizz(){
-  console.log("start quizz fonctionne  ! ")
+  console.log("start quizz fonctionne  ! ");
+
+  // on récupère est sauvegarde les questions
   let quests = await get_questions(20);
+  // liste des id de questions récupérer dans le localStorage
   let lst_quest = save_question(quests);
   
-  for (let i = 0; i < lst_quest.length; i++) {
-    let quest_to_show = JSON.parse(localStorage.getItem(lst_quest[i]));
+  // la valeur du bouton next-question
+  console.log(NEXT_QUESTION.value)
+  console.log(typeof(NEXT_QUESTION.value))
+  
+  // on récupère l'indice de la question à afficher, 
+  // dans notre liste à l'indice de la valeur de next-question button
+
+  let id_q = lst_quest[NEXT_QUESTION.value];
+  // while (id_q < lst_quest.length){
+
+    let quest_to_show = JSON.parse(localStorage.getItem(id_q));
     console.log(quest_to_show);
+    // console.log(quest_to_show[0]);
+    
+    // console.log(num_quest);
+    console.log("id de la question a montrer : " + id_q);
+    
     display_question(quest_to_show);
-    console.log()
-  }
+    VALID_QUESTION.addEventListener("click", ()=>{
+      NEXT_QUESTION.classList.remove("d-none");
+      VALID_QUESTION.classList.add("d-none");
+    })
+    
+    NEXT_QUESTION.addEventListener("click", (ev) => {
+      if(NEXT_QUESTION.value < lst_quest.length){
+        NEXT_QUESTION.value += 1;
+        console.log("vlaue par le ev : " +ev.value);
+        id_q = lst_quest[parseInt(NEXT_QUESTION.value)];
+        console.log("id question en storage : " + id_q);
+        // id_q = parseInt(NEXT_QUESTION.value);
+        console.log("next-question new value : " + typeof(id_q));
+        quest_to_show = JSON.parse(localStorage.getItem(id_q));
+        console.log(quest_to_show);
+        // id_q = parseInt(NEXT_QUESTION.value)
+        display_question(quest_to_show)
+        NEXT_QUESTION.classList.add("d-none");
+        VALID_QUESTION.classList.remove("d-none");
+
+      }
+      
+    })
+  // }
+
+  // for (let i = 0; i < lst_quest.length; i++) {
+  //   let quest_to_show = JSON.parse(localStorage.getItem(lst_quest[i]));
+  //   console.log(quest_to_show);
+  //   display_question(quest_to_show);
+  //   console.log()
+  // }
 }
 
 /*
