@@ -144,55 +144,58 @@ function display_question(quest){
 
     // on affiche les réponses possible
     let answers = quest.answers;
-    
-    ANSWER_A.innerText = answers.answer_a + 
-        '<input type="radio" name="answer" value="a">';
-    ANSWER_B.innerText = answers.answer_b +
-        '<input type="radio" name="answer" value="b">';
-    ANSWER_C.innerText = answers.answer_c +
-        '<input type="radio" name="answer" value="c">';
-    ANSWER_D.innerText = answers.answer_d +
-        '<input type="radio" name="answer" value="d">';
+    console.log(`${answers.answer_a}<input type="radio" name="`);
+    ANSWER_A.innerHTML =`${answers.answer_a}<input type="radio" name="answer" id="rep_a" value="a">`;
+    // ANSWER_A.innerText = answers.answer_a ; 
+    ANSWER_B.innerHTML =`${answers.answer_b}<input type="radio" name="answer" id="rep_b" value="b">`;
+    // ANSWER_B.innerText = answers.answer_b ;
+    ANSWER_C.innerHTML =`${answers.answer_c}<input type="radio" name="answer" id="rep_c" value="c">`;
+    // ANSWER_C.innerText = answers.answer_c ;
+    ANSWER_D.innerHTML =`${answers.answer_d}<input type="radio" name="answer" id="rep_d" value="d">`;
+    // ANSWER_D.innerText = answers.answer_d ;
     
     if (ANSWER_E.classList.contains("d-none")){
         if (answers.answer_e != null){
             ANSWER_E.classList.remove('d-none');
-            ANSWER_E.innerText = answers.answer_e +
-            '<input type="radio" name="answer" value="e">';
+            ANSWER_E.innerHTML =`${answers.answer_e}<input type="radio" name="answer" id="rep_e" value="e">`;
+            // ANSWER_E.innerText = answers.answer_e ;
         }
     } else {
         ANSWER_E.classList.add('d-none');
     }
-
+    // console.log(answers)
+    // console.log(answers.answer_f)
     if (answers.answer_f != null){
-
+        
         if (ANSWER_F.classList.contains("d-none")){
             ANSWER_F.classList.remove('d-none');
-            ANSWER_F.innerText = answers.answer_f +
-            '<input type="radio" name="answer" value="f">';
+            ANSWER_F.innerHTML =`${answers.answer_f}<input type="radio" name="answer" id="rep_f" value="f">`;
+            // ANSWER_F.innerText = answers.answer_f ;
         }
     } else {
         ANSWER_F.classList.add('d-none');
     }
 
-    if(quest.multiple_correct_answers){
-        ANSWER_A.setAttribute("type", "checkbox");
-        ANSWER_B.setAttribute("type", "checkbox");
-        ANSWER_C.setAttribute("type", "checkbox");
-        ANSWER_D.setAttribute("type", "checkbox");
-        ANSWER_E.setAttribute("type", "checkbox");
-        ANSWER_F.setAttribute("type", "checkbox");
-    }else{
-        if(ANSWER_A.getAttribute("type") == "checkbox"){
 
-            ANSWER_A.setAttribute("type", "radio");
-            ANSWER_B.setAttribute("type", "radio");
-            ANSWER_C.setAttribute("type", "radio");
-            ANSWER_D.setAttribute("type", "radio");
-            ANSWER_E.setAttribute("type", "radio");
-            ANSWER_F.setAttribute("type", "radio");
-        }
-    }
+// console.log(quest.multiple_correct_answers);
+//     if(quest.multiple_correct_answers ){
+//         ANSWER_A.setAttribute("type", "checkbox");
+//         ANSWER_B.setAttribute("type", "checkbox");
+//         ANSWER_C.setAttribute("type", "checkbox");
+//         ANSWER_D.setAttribute("type", "checkbox");
+//         ANSWER_E.setAttribute("type", "checkbox");
+//         ANSWER_F.setAttribute("type", "checkbox");
+//     }else{
+//         if(ANSWER_A.getAttribute("type") == "checkbox"){
+
+//             ANSWER_A.setAttribute("type", "radio");
+//             ANSWER_B.setAttribute("type", "radio");
+//             ANSWER_C.setAttribute("type", "radio");
+//             ANSWER_D.setAttribute("type", "radio");
+//             ANSWER_E.setAttribute("type", "radio");
+//             ANSWER_F.setAttribute("type", "radio");
+//         }
+//     }
     // on affiche le hint s'y'en a un
     if (question.tip){
         HINT_TAG.innerText = question.tip

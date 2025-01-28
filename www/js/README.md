@@ -1,5 +1,24 @@
 # Quizzil
 
+- récupèrer réponse
+- valider réponse ou montrer la bonne
+- mettre en place des stats
+- sauvegarder les favoris de l'user
+
+## TODO
+
+
+- api externe : quizz.io
+- persistence des données : localStorage
+- librairie graphique externe : Bootstrap
+- commenter le code : OK
+- documentation technique : Readme
+- min 1 plugin asynchrone :
+- librairie externe (Leaflet, chart.js)
+
+
+mettre un message sur le bouton d'affichage du quizz pour vérifier la connexion internet sinon mode hors-ligne
+
 /**
  * Returns x raised to the n-th power.
  *
@@ -16,9 +35,6 @@ commentaire dans le code
 
 qu'est ce qu'on aurai aimer avoir comme doc nous même
 
-## TODO
-
-mettre un message sur le bouton d'affichage du quizz pour vérifier la connexion internet sinon mode hors-ligne
 
 
 ## installation

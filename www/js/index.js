@@ -71,6 +71,7 @@ function onDeviceReady() {
 async function start_quizz(){
   console.log("start quizz fonctionne  ! ");
 
+  let reponse = "";
   // on récupère est sauvegarde les questions
   let quests = await get_questions(20);
   // liste des id de questions récupérer dans le localStorage
@@ -86,37 +87,59 @@ async function start_quizz(){
   let id_q = lst_quest[NEXT_QUESTION.value];
   // while (id_q < lst_quest.length){
 
-    let quest_to_show = JSON.parse(localStorage.getItem(id_q));
-    console.log(quest_to_show);
-    // console.log(quest_to_show[0]);
-    
-    // console.log(num_quest);
-    console.log("id de la question a montrer : " + id_q);
-    
-    display_question(quest_to_show);
-    VALID_QUESTION.addEventListener("click", ()=>{
-      NEXT_QUESTION.classList.remove("d-none");
-      VALID_QUESTION.classList.add("d-none");
-    })
-    
-    NEXT_QUESTION.addEventListener("click", (ev) => {
-      if(NEXT_QUESTION.value < lst_quest.length){
-        NEXT_QUESTION.value += 1;
-        console.log("vlaue par le ev : " +ev.value);
-        id_q = lst_quest[parseInt(NEXT_QUESTION.value)];
-        console.log("id question en storage : " + id_q);
-        // id_q = parseInt(NEXT_QUESTION.value);
-        console.log("next-question new value : " + typeof(id_q));
-        quest_to_show = JSON.parse(localStorage.getItem(id_q));
-        console.log(quest_to_show);
-        // id_q = parseInt(NEXT_QUESTION.value)
-        display_question(quest_to_show)
-        NEXT_QUESTION.classList.add("d-none");
-        VALID_QUESTION.classList.remove("d-none");
+  let quest_to_show = JSON.parse(localStorage.getItem(id_q));
+  console.log(quest_to_show);
+  // console.log(quest_to_show[0]);
+  
+  // console.log(num_quest);
+  console.log("id de la question a montrer : " + id_q);
+  
+  display_question(quest_to_show);
+  selected = false; 
+  // while  (! selected){
+  let lst_rep = ['rep_a', 'rep_b', 'rep_c', 'rep_d','rep_e','rep_f'];
 
+  //   lst_rep.forEach(el => {
+  //     if(el.checked){
+  //       reponse = el.value;
+  //       console.log('la reponse value :' + reponse);
+  //       selected = true;
+  //       console.log("selected to true");
+  //     }
+  //   });
+  //   VALID_QUESTION.removeAttribute("disabled");
+  // }
+
+  VALID_QUESTION.addEventListener("click", ()=>{
+    lst_rep.forEach(rep => {
+      if (rep.checked){
+        console.log(rep);
+        reponse = rep.value
+        console.log("la reponse value : " + reponse)
       }
+    });
+    NEXT_QUESTION.classList.remove("d-none");
+    VALID_QUESTION.classList.add("d-none");
+  })
+  
+  NEXT_QUESTION.addEventListener("click", (ev) => {
+    if(NEXT_QUESTION.value < lst_quest.length){
+      NEXT_QUESTION.value += 1;
+      console.log("vlaue par le ev : " +ev.value);
+      id_q = lst_quest[parseInt(NEXT_QUESTION.value)];
+      console.log("id question en storage : " + id_q);
+      // id_q = parseInt(NEXT_QUESTION.value);
+      console.log("next-question new value : " + typeof(id_q));
+      quest_to_show = JSON.parse(localStorage.getItem(id_q));
+      console.log(quest_to_show);
+      // id_q = parseInt(NEXT_QUESTION.value)
+      display_question(quest_to_show)
+      NEXT_QUESTION.classList.add("d-none");
+      VALID_QUESTION.classList.remove("d-none");
+      // VALID_QUESTION.setAttribute('disabled', '');
+    }
       
-    })
+  })
   // }
 
   // for (let i = 0; i < lst_quest.length; i++) {
@@ -161,7 +184,6 @@ async function display_tags() {
     QUESTION.innerHTML += tags.html;
   })
 }
-I
 /**
  * enregistre des questions dans le localStorage s'il elle n'y sont pas déjà
  * retourne la liste des id questions envoyé à la fonction
