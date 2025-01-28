@@ -36,7 +36,7 @@
     <body>
         <main class="app container bg-light">
             <header>
-                <h1 class="h1 bg-light text-center">Quizzil</h1>
+                <h1 class="h1 bg-light m-2 text-center">Quizzil</h1>
             </header>
             
             <!-- 
@@ -93,35 +93,34 @@
                         </menu>
                  </article>
                 <!-- affichage de la question -->
-                <article id="view-question" class="d-none card">
+                <article id="view-question" class="d-none">
                     <header id="question-header"></header>
 
-                    <h2 class="h2 card-header" id="question">
+                    <h2 class="h2 m-3" id="question">
                     </h2>
-                    <p id="description"></p>
-                    <form class="form-check">
-                            <label id="answer_a">
-                                <!-- <input type="radio" name="answer" value="a"> -->
-                            </label>
-                            <label id="answer_b">
-                                <!-- <input type="radio" name="answer" value="b"> -->
-                            </label>
-                            <label id="answer_c">
-                                <!-- <input type="radio" name="answer" value="c"> -->
-                            </label>
-                            <label id="answer_d">
-                                <!-- <input type="radio" name="answer" value="d"> -->
-                            </label>
-                            <label id="answer_e">
-                            </label>
-                                <!-- <input type="radio" name="answer" value="e" class="d-none"> -->
-                            <label id="answer_f">
-                                <!-- <input type="radio" name="answer" value="f" class="d-none"> -->
-                            </label>
+                    <h3 class="h3 m-2" id="description"></h3>
+                    <form class="d-flex flex-column form-check">
+                            <label for="rep_a" class="btn" id="answer_a"></label>
+                            <input type="radio" class="btn-check m-1" id="rep_a" name="answer" value="a">
+                            
+                            <label id="answer_b" class="btn" for="rep_b"></label>
+                            <input type="radio" name="answer" class="btn-check m-1" id="rep_b" value="b">
+                            
+                            <label id="answer_c" class="btn" for="rep_c"></label>
+                            <input type="radio" name="answer" id="rep_c" class="btn-check m-1" value="c">
+                            
+                            <label id="answer_d" class="btn" for="rep_d"></label>
+                            <input type="radio" name="answer" class="btn-check m-1" id="rep_d" value="d">
+                            
+                            <label id="answer_e" class="btn" for="rep_e"></label>
+                            <input type="radio" name="answer" class="btn-check m-1" id="rep_e" value="e" class="d-none">
+                            
+                            <label id="answer_f" class="btn" for="rep_f"></label>
+                            <input type="radio" name="answer" class="btn-check m-1" id="rep_f" value="f" class="d-none">
                     </form>
 
-                    <button id="validation-question">Valider</button>
-                    <button id="next-question" class="d-none" value="0">Question suivante</button>
+                    <button id="validation-question" class="btn btn-outline-success">Valider</button>
+                    <button id="next-question" class="d-none btn btn-outline-success" value="0">Question suivante</button>
                 </article>
                 <!-- <article id="question" class=""></article> -->
                 <!-- <article>

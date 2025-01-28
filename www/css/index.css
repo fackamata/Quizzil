@@ -17,3 +17,10 @@ footer{
 .cart{
     width: 18rem;
 }
+
+#validation-question, #next-question{
+    position: fixed;
+    bottom: 10vh;
+    left: 25vw;
+    width: 50vw;
+}
