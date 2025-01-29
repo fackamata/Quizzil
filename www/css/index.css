@@ -3,7 +3,7 @@ header{
 }
 
 section{
-    height: 90vh;
+    min-height: 90vh;
 }
 
 /* #question{
@@ -23,4 +23,11 @@ footer{
     bottom: 10vh;
     left: 25vw;
     width: 50vw;
+}
+
+#hint{
+    position: fixed;
+    bottom: 20vh;
+    left: 5vw;
+    width: 90vw;
 }

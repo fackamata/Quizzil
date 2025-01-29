@@ -27,9 +27,10 @@
         
         <script defer src="cordova.js"></script>
         <script defer src="js/display.js"></script>
-        <!-- <script defer src="js/quizz.js"></script> -->
-        <script defer src="js/index.js"></script>
+        <script defer src="js/user.js"></script>
+        <script defer src="js/quizz.js"></script>
         <script defer src="js/bootstrap.min.js"></script>
+        <script defer src="js/index.js"></script>
 
         <title>Quizzil</title>
     </head>
@@ -48,16 +49,31 @@
             <section id="home-section">
                 <h2>Faite votre choix</h2>
 
-                <input type="button" class="btn btn-outline-info" value="choix categorie" id="categories_btn">
-                <input type="button" class="btn btn-outline-info" value="quizz" id="quizz_btn">
-                <input type="button" class="btn btn-outline-info" value="check" id="check_btn">
-                <input type="button" class="btn btn-outline-info" value="tag" id="tag_btn">
-                <input type="button" class="btn btn-outline-info" value="random" id="random_btn">
+                <div class="d-flex flex-column justify-content-evenly">
+                    <input type="button" class="btn btn-outline-info" value="choix categorie" id="categories_btn">
+                    <input type="button" class="btn btn-outline-info" value="quizz" id="quizz_btn">
+                    <input type="button" class="btn btn-outline-info" value="check" id="check_btn">
+                    <input type="button" class="btn btn-outline-info" value="tag" id="tag_btn">
+                    <input type="button" class="btn btn-outline-info" value="random" id="random_btn">
+                </div>
                 
                 <aside class="d-none alert alert-danger" id="alert-no-connection" role="alert">
                     Aucune connection internet - accès limité à l'application
                 </aside>
             </section>
+
+            
+            <!-- 
+                
+            élément nécessaire  à l'affichage des tags 
+            
+            
+        -->
+            <section id="select-tag-section" class="d-none">
+                <h2 id="select-tag-h2"></h2>
+                <form id="select-tag"></form>
+            </section>
+
             <!-- 
                 
             élément nécessaire  à l'affichage du quizz 
@@ -83,50 +99,22 @@
                  </article>
                 <!-- affichage de la question -->
                 <article id="view-question" class="d-none">
-                    <header id="question-header"></header>
+                    <header id="question-header" class="d-flex justify-content-around">
+                        <p id="question-count"></p>
+                        <p id="question-score">Score: 0</p>
+                    </header>
 
-                    <h2 class="h2 m-3" id="question">
-                    </h2>
+                    <h2 class="h2 m-3" id="question-display"></h2>
+                    <!-- <h2 class="h2 m-3" id="question"></h2> -->
                     <h3 class="h3 m-2" id="description"></h3>
-                    <form class="d-flex flex-column form-check">
-                            <label for="rep_a" class="btn" id="answer_a"></label>
-                            <input type="radio" class="btn-check m-1" id="rep_a" name="rep_a" value="a">
-                            
-                            <label id="answer_b" class="btn" for="rep_b"></label>
-                            <input type="radio" name="rep_b" class="btn-check m-1" id="rep_b" value="b">
-                            
-                            <label id="answer_c" class="btn" for="rep_c"></label>
-                            <input type="radio" name="rep_c" id="rep_c" class="btn-check m-1" value="c">
-                            
-                            <label id="answer_d" class="btn" for="rep_d"></label>
-                            <input type="radio" name="rep_d" class="btn-check m-1" id="rep_d" value="d">
-                            
-                            <label id="answer_e" class="btn" for="rep_e"></label>
-                            <input type="radio" name="rep_e" class="btn-check m-1" id="rep_e" value="e" class="d-none">
-                            
-                            <label id="answer_f" class="btn" for="rep_f"></label>
-                            <input type="radio" name="rep_f" class="btn-check m-1" id="rep_f" value="f" class="d-none">
+
+                    <form id ="question-form" class="d-flex flex-column form-check">
                     </form>
 
-                    <button id="validation-question" class="btn btn-outline-success">Valider</button>
                     <button id="next-question" class="d-none btn btn-outline-success" value="0">Question suivante</button>
                 </article>
-                <!-- <article id="question" class=""></article> -->
-                <!-- <article>
-                    <ul id="answer">
-
-                    </ul>
-                </article> -->
-                       
-                <!-- validation de la réponse -->
-                <!-- mauvaise réponse -->
-                <div class="bg-info bg-gradient d-none" id="display-good-answer">
-                    
-                </div>
-                <div class="bg-warning bg-gradient d-none" id="bad-answer"></div>
-                
-                <!-- bonne réponse -->
-                <div class="bg-success bg-gradient d-none" id="good-answer"></div>
+                <!-- affichage de la page de résultat -->
+                <article id="view-result" class="d-none"></article>
             </section>
 
             <!-- 
@@ -141,7 +129,7 @@
 
         <footer>
             <ul class="d-flex justify-content-evenly">
-                <li class="d-flex flex-column">
+                <li class="d-flex flex-column p-2">
                     <svg id="btn-statistic"
                         xmlns="http://www.w3.org/2000/svg" 
                         width="16" height="16" 
@@ -150,7 +138,7 @@
                         <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07"/>
                     </svg>
                 </li>
-                <li class="d-flex flex-column">
+                <li class="d-flex flex-column p-2">
                     <svg id="btn-home"
                         xmlns="http://www.w3.org/2000/svg" 
                         width="16" height="16" 
@@ -159,7 +147,7 @@
                         <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
                     </svg>
                 </li>
-                <li class="d-flex flex-column">
+                <li class="d-flex flex-column p-2">
                     <svg id="btn-quizz"
                         xmlns="http://www.w3.org/2000/svg" width="16"
                         height="16" fill="currentColor" 

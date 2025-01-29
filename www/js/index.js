@@ -1,9 +1,10 @@
 // import Quizz from "quizz";
 
-const DISPLAY = document.getElementById("display");
+// const DISPLAY = document.getElementById("display");
 const API = "https://quizapi.io/api/v1/";
 const API_KEY = "?apiKey=x622ubZyhNZIsj9lcaKCLNgvX337L6o6I4bIVxjW";
-const QUESTION = document.getElementById("question");
+const SELECT_CHECKBOX = document.getElementById("select-tag");
+const SELECT_CHECKBOX_H2 = document.getElementById("select-tag-h2");
 
 
 // alert no connection
@@ -14,8 +15,12 @@ const BTN_HOME = document.getElementById("btn-home");
 const BTN_STAT = document.getElementById("btn-statistic");
 // bouton de la section quizz
 const BTN_CHOICE_ALL_CAT = document.getElementById("choice-all-cat");
-const NEXT_QUESTION = document.getElementById("next-question");
-const VALID_QUESTION = document.getElementById("validation-question");
+
+
+/**
+ * 
+ *              CORDOVA START 
+*/
 
 document.addEventListener('deviceready', onDeviceReady, false);
 
@@ -29,139 +34,109 @@ function onDeviceReady() {
   BTN_STAT.addEventListener("click", display_stats_section)
   BTN_HOME.addEventListener("click", display_home_section)
   // bouton choix du quizz
-  BTN_CHOICE_ALL_CAT.addEventListener("click", start_quizz)
+  // BTN_CHOICE_ALL_CAT.addEventListener("click", start_quizz)
+  BTN_CHOICE_ALL_CAT.addEventListener("click", begin_quizz)
 
 
-  document.getElementById("categories_btn").addEventListener("click", display_categories);
-  document.getElementById("tag_btn").addEventListener("click", display_tags);
+  document.getElementById("categories_btn").addEventListener("click", get_categories);
+  document.getElementById("tag_btn").addEventListener("click", get_tags);
   document.getElementById("check_btn").addEventListener("click", checkConnection);
 
 }
 
 // logic pour le quizz
-async function start_quizz(){
-  console.log("start quizz fonctionne  ! ");
+// async function start_quizz(){
+//   // console.log("start quizz fonctionne  ! ");
 
-  let reponse = "";
-  // on récupère est sauvegarde les questions
-  let quests = await get_questions(20);
-  // liste des id de questions récupérer dans le localStorage
-  let lst_quest = save_question(quests);
-  
-  // la valeur du bouton next-question
-  console.log(NEXT_QUESTION.value)
-  console.log(typeof(NEXT_QUESTION.value))
-  
-  // on récupère l'indice de la question à afficher, 
-  // dans notre liste à l'indice de la valeur de next-question button
+//   // let reponse = "";
+//   // on récupère est sauvegarde les questions
+//   // let quests = await get_questions(20);
+//   // liste des id de questions récupérer dans le localStorage
+//   // let lst_quest = get_list_question_from storage(quests);
+    
+//   // on récupère l'indice de la question à afficher, 
+//   // dans notre liste à l'indice de la valeur de next-question button
+//   let id_q = lst_quest[NEXT_QUESTION.value];
+//   // while (id_q < lst_quest.length){
 
-  let id_q = lst_quest[NEXT_QUESTION.value];
-  // while (id_q < lst_quest.length){
-
-  let quest_to_show = JSON.parse(localStorage.getItem(id_q));
-  console.log(quest_to_show);
-  // console.log(quest_to_show[0]);
+//   let quest_to_show = JSON.parse(localStorage.getItem(id_q));
+//   console.log("index_js 56: " + quest_to_show);
+//   // console.log(quest_to_show[0]);
   
-  // console.log(num_quest);
-  console.log("id de la question a montrer : " + id_q);
+//   // console.log(num_quest);
+//   console.log("id de la question a montrer : " + id_q);
   
-  display_question(quest_to_show);
-  selected = false; 
-  let lst_rep = ['rep_a', 'rep_b', 'rep_c', 'rep_d','rep_e','rep_f'];
+//   display_question(quest_to_show);
+//   selected = false; 
 
-  //   lst_rep.forEach(el => {
-  //     if(el.checked){
-  //       reponse = el.value;
-  //       console.log('la reponse value :' + reponse);
-  //       selected = true;
-  //       console.log("selected to true");
-  //     }
-  //   });
-  //   VALID_QUESTION.removeAttribute("disabled");
-  // }
+//   //   lst_rep.forEach(el => {
+//   //     if(el.checked){
+//   //       reponse = el.value;
+//   //       console.log('la reponse value :' + reponse);
+//   //       selected = true;
+//   //       console.log("selected to true");
+//   //     }
+//   //   });
+//   //   VALID_QUESTION.removeAttribute("disabled");
+//   // }
 
-  VALID_QUESTION.addEventListener("click", ()=>{
-    lst_rep.forEach(rep => {
-      if (rep.checked){
-        console.log(rep);
-        reponse = rep.value
-        console.log("la reponse value : " + reponse)
-      }
-    });
-    NEXT_QUESTION.classList.remove("d-none");
-    VALID_QUESTION.classList.add("d-none");
-  })
+
+//   const NEXT_QUESTION = document.getElementById("next-question");
+//   const VALID_QUESTION = document.getElementById("validation-question");
+
+//   // la valeur du bouton next-question
+//   console.log(NEXT_QUESTION.value)
+//   console.log(typeof(NEXT_QUESTION.value))
+
+//   VALID_QUESTION.addEventListener("click", ()=>{
+//     lst_rep.forEach(rep => {
+//       if (rep.checked){
+//         console.log(rep);
+//         reponse = rep.value
+//         console.log("la reponse value : " + reponse)
+//       }
+//     });
+//     NEXT_QUESTION.classList.remove("d-none");
+//     VALID_QUESTION.classList.add("d-none");
+//   })
   
-  NEXT_QUESTION.addEventListener("click", (ev) => {
-    if(NEXT_QUESTION.value < lst_quest.length){
-      NEXT_QUESTION.value += 1;
-      console.log("vlaue par le ev : " +ev.value);
-      id_q = lst_quest[parseInt(NEXT_QUESTION.value)];
-      console.log("id question en storage : " + id_q);
-      // id_q = parseInt(NEXT_QUESTION.value);
-      console.log("next-question new value : " + typeof(id_q));
-      quest_to_show = JSON.parse(localStorage.getItem(id_q));
-      console.log(quest_to_show);
-      // id_q = parseInt(NEXT_QUESTION.value)
-      display_question(quest_to_show)
-      NEXT_QUESTION.classList.add("d-none");
-      VALID_QUESTION.classList.remove("d-none");
-      // VALID_QUESTION.setAttribute('disabled', '');
-    }
+//   NEXT_QUESTION.addEventListener("click", (ev) => {
+//     if(NEXT_QUESTION.value < lst_quest.length){
+//       NEXT_QUESTION.value += 1;
+//       console.log("vlaue par le ev : " +ev.value);
+//       id_q = lst_quest[parseInt(NEXT_QUESTION.value)];
+//       console.log("id question en storage : " + id_q);
+//       // id_q = parseInt(NEXT_QUESTION.value);
+//       console.log("next-question new value : " + typeof(id_q));
+//       quest_to_show = JSON.parse(localStorage.getItem(id_q));
+//       console.log(quest_to_show);
+//       // id_q = parseInt(NEXT_QUESTION.value)
+//       display_question(quest_to_show)
+//       NEXT_QUESTION.classList.add("d-none");
+//       VALID_QUESTION.classList.remove("d-none");
+//       // VALID_QUESTION.setAttribute('disabled', '');
+//     }
       
-  })
-  // }
+//   })
+//   // }
 
-  // for (let i = 0; i < lst_quest.length; i++) {
-  //   let quest_to_show = JSON.parse(localStorage.getItem(lst_quest[i]));
-  //   console.log(quest_to_show);
-  //   display_question(quest_to_show);
-  //   console.log()
-  // }
-}
-
-/*
-Affiche les tags
-*/
-async function display_tags() {
-  console.log(" ! on display cate!");
-  QUESTION.innerHTML = "";
-
-  let json = await get_tags();
-  console.log(json);
-  // let object = JSON.stringify(json);  // type objet
-  let tags = JSON.parse(json);  // type objet
+//   // for (let i = 0; i < lst_quest.length; i++) {
+//   //   let quest_to_show = JSON.parse(localStorage.getItem(lst_quest[i]));
+//   //   console.log(quest_to_show);
+//   //   display_question(quest_to_show);
+//   //   console.log()
+//   // }
+// }
 
 
-  let tagsArray = [];
-
-  tags.forEach(tag => {
-    // console.log(tags.name)
-
-    tagsArray.push(
-      {
-        html: `
-                <div>
-                  <input type="checkbox" name="${tag.name}"/>
-                  <label for="${tag.name}">${tag.name}</label>
-                </div>
-              `,
-      }
-    );
-  });
-
-  tagsArray.forEach(function (tags) {
-    QUESTION.innerHTML += tags.html;
-  })
-}
 /**
- * enregistre des questions dans le localStorage s'il elle n'y sont pas déjà
- * retourne la liste des id questions envoyé à la fonction
+ * enregistre des questions dans le localStorage s'il elle n'y sont pas déjà et on 
+ * retourne la liste des id questions enregistré
  * 
- * @param {object} questions json de question
  * @returns {Array} last_questions liste des id des questions
  */
-function save_question(questions) {
+async function get_list_question_from_storage() {
+// function get_list_question_from storage(questions) {
   console.log(" ! in save question!");
   
   let last_questions = [];
@@ -170,26 +145,29 @@ function save_question(questions) {
     localStorage.setItem('lst_id_question', JSON.stringify([]))
   }
 
-  try {
-    questions = JSON.parse(questions);  // type objet
-  } catch (error) {
-    alert("Vous devez activez les données ou le WIFI");
-  }
-  
   // list des id des questions déjà dans le localstorage 
   let lst_id_question = JSON.parse(localStorage.getItem('lst_id_question')) ;
-  // let question_in_storage = JSON.parse(localStorage.getItem('question_api'));
-  
+  console.log(lst_id_question);
+  try {
+    let questions = await get_questions(20);
+    questions = JSON.parse(questions);  // type objet
+    console.log(questions);
+  } catch (error) {
+    alert("Vous devez activez les données ou le WIFI");
+    // TODO mettre une liste de question random si lst_id_question.lenght > 20
+    //    pour utilisation sans réseau
+  }
+  // console.log(questions.length);
   // on parcour les questions reçu par l'api et on sauvegarde celle qu'on as pas
   for (let i = 0; i < questions.length; i++) {
     // on ajouter les questions non encore présente dans le localStorage
+    console.log(questions[i]);
     if ( ! lst_id_question.includes(questions[i].id) ) {
       // on ajoute la questions avec comme clé son id
       localStorage.setItem(questions[i].id, JSON.stringify(questions[i]));
       // on enregistre l'id dans notre liste d'id en storage
       lst_id_question.push(questions[i].id);
-      console.log(questions[i]);
-      
+      // console.log(questions[i]);
     }
     last_questions.push(questions[i].id);
   }
@@ -212,68 +190,41 @@ function save_question(questions) {
 
 // }
 
-/*
-Affiche les différentes catégories
-*/
-async function display_categories() {
+
+
+async function get_tags() {
   console.log(" ! on display cate!");
-  QUESTION.innerHTML = "";
+  SELECT_CHECKBOX_H2.innerText = "sélectionner vos tags préférés";
 
-  let json = await get_categories();
-  // let object = JSON.stringify(json);  // type objet
-  let categories = JSON.parse(json);  // type objet
-
-  console.log(typeof (categories));
-
-  let categoriesArray = [];
-
-  categories.forEach(category => {
-    // console.log(categories.name)
-
-    categoriesArray.push(
-      {
-        html: `
-                <div>
-                  <input type="checkbox" name="${category.name}"/>
-                  <label for="${category.name}">${category.name}</label>
-                </div>
-              `,
-      }
-    )
-  });
-
-  categoriesArray.forEach(function (categories) {
-    QUESTION.innerHTML += categories.html;
-  });
-}
-
-/*
-Récupérer les catégories disponibles
-
-return: liste des catégories
-*/
-function get_categories() {
-  console.log(" ! on get categories !");
-  let param = "categories";
-  let url = `${API}${param}${API_KEY}`;
-  // let url = "data/categories.json";
-  // console.log("url : " + url);
-  return fetch_data(url);
-}
-
-/*
-Récupérer les tags disponibles
-
-return: liste des tags
-*/
-function get_tags() {
-  // console.log(" ! on get tags !");
   let param = "tags";
   let url = `${API}${param}${API_KEY}`;
   // let url = "data/tags.json";
   // console.log("url : " + url);
-  return fetch_data(url);
+  
+  let tags = await fetch_data(url);
+  // console.log(tags);
+  // let tags = JSON.parse(tags);  // type objet
+
+  // let tagsArray = [];
+  display_tags(JSON.parse(tags)) // envoie en objet
+  
 }
+
+
+async function get_categories() {
+  SELECT_CHECKBOX.innerHTML = "";
+  SELECT_CHECKBOX_H2.innerText = "sélectionner vos categories préférés";
+
+  let param = "categories";
+  let url = `${API}${param}${API_KEY}`;
+
+  let categ = await fetch_data(url);
+  // let object = JSON.stringify(categ);  // type objet
+  let categories = JSON.parse(categ);  // type objet
+
+  display_categories(categories);
+}
+
 
 /**
  * Returns questions, json de 20 questions par défaut.
