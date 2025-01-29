@@ -69,54 +69,11 @@ function display_stats_section() {
 }
 
 /**
- * Affiche la page des boutons de selection de quizz
-*/
-// function display_quizz_choice_view() {
-//     console.log("fonction quizz choice display working ! ");
-
-
-//     if ( !VIEW_QUESTION.classList.contains('d-none') ){
-//         VIEW_QUESTION.classList.add('d-none');
-//     }
-//     if (VIEW_SELECT_QUIZZ.classList.contains('d-none')){
-//         VIEW_SELECT_QUIZZ.classList.remove('d-none');
-//     }
-// }
-
-/**
- * Affiche la page des questions
-*/
-// function display_question_view() {
-//     console.log("fonction quizz choice display working ! ");
-
-//     if ( !VIEW_SELECT_QUIZZ.classList.contains('d-none') ){
-//         VIEW_SELECT_QUIZZ.classList.add('d-none');
-//     }
-//     if ( VIEW_QUESTION.classList.contains('d-none') ){
-//         VIEW_QUESTION.classList.remove('d-none');
-//     }
-// }
-
-// function display_hint(){
-//     if (HINT_TAG.classList.contains("d-none")){
-//         HINT_TAG.classList.remove('d-none');
-//     }
-// }
-
-/**
  * affiche un question dans la section
  *  
  * @param {object} quest objet question
  */
 function display_question(quest){
-    // const QUEST = quest.question;
-    // const DESCRIPT = quest.description;
-    // const EXPLANATION = quest.explanation;
-    // const DIFFICULTY = quest.difficulty;
-    // const MULTI_ANSWERS = quest.multiple_correct_answers;
-    // const HINT = quest.tip;
-    // const ANSWERS = quest.answers;
-    // const COR_ANSWERS = quest.correct_answers;
 
     // on affiche la question
     console.log("fonction display question working ! ");
@@ -133,7 +90,7 @@ function display_question(quest){
     if(quest.description ){
         DESCRIPT_TAG.innerText = quest.description;
     }
-    // on parcour les réponse pour trouver l'id de la bonne
+    // on parcour les réponses pour trouver l'id de la bonne
     let id_rep = 0;
     let correct_ans = quest.correct_answers
     for (let i = 0; i < correct_ans.length; i++) {
@@ -175,29 +132,9 @@ function display_question(quest){
         ANSWER_F.classList.add('d-none');
     }
 
-
-// console.log(quest.multiple_correct_answers);
-//     if(quest.multiple_correct_answers ){
-//         ANSWER_A.setAttribute("type", "checkbox");
-//         ANSWER_B.setAttribute("type", "checkbox");
-//         ANSWER_C.setAttribute("type", "checkbox");
-//         ANSWER_D.setAttribute("type", "checkbox");
-//         ANSWER_E.setAttribute("type", "checkbox");
-//         ANSWER_F.setAttribute("type", "checkbox");
-//     }else{
-//         if(ANSWER_A.getAttribute("type") == "checkbox"){
-
-//             ANSWER_A.setAttribute("type", "radio");
-//             ANSWER_B.setAttribute("type", "radio");
-//             ANSWER_C.setAttribute("type", "radio");
-//             ANSWER_D.setAttribute("type", "radio");
-//             ANSWER_E.setAttribute("type", "radio");
-//             ANSWER_F.setAttribute("type", "radio");
-//         }
-//     }
     // on affiche le hint s'y'en a un
     if (question.tip){
-        HINT_TAG.innerText = question.tip
+        HINT_TAG.addEventListener("click", () => { alert(question.tip)});
     }
 
 };

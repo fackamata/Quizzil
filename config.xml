@@ -2,6 +2,7 @@
 <widget id="fr.smb.univ.marlene.Quizzil" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Quizzil</name>
     <description>Network Oriented Quizz App</description>
+    <icon src="www/img/quiz.png" platform="android" width="57" height="57" density="mdpi" />
     <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
         BUT2 Alt Team
     </author>

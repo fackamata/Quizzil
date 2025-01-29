@@ -54,27 +54,16 @@
                 <input type="button" class="btn btn-outline-info" value="tag" id="tag_btn">
                 <input type="button" class="btn btn-outline-info" value="random" id="random_btn">
                 
+                <aside class="d-none alert alert-danger" id="alert-no-connection" role="alert">
+                    Aucune connection internet - accès limité à l'application
+                </aside>
             </section>
-            <aside class="d-none alert alert-danger" id="alert-no-connection" role="alert">
-                Aucune connection internet - accès limité à l'application
-              </aside>
             <!-- 
                 
             élément nécessaire  à l'affichage du quizz 
             
             
         -->
-        
-                    <!-- <div class="quizz">
-                      <h1>Quizz</h1>
-                      <div id="question"></div>
-                      <div id="option"></div>
-                      <div id="hint"></div>
-                      <button onclick="checkAns()" id="validation">valider</button> -->
-                      <!-- <button id="validation">valider</button>
-                      <div id="score"></div>
-                    </div> -->
-        
             <section id="quizz-section" class="d-none">
                 <!-- affichage des bouton de sélection de quizz -->
                  
@@ -101,22 +90,22 @@
                     <h3 class="h3 m-2" id="description"></h3>
                     <form class="d-flex flex-column form-check">
                             <label for="rep_a" class="btn" id="answer_a"></label>
-                            <input type="radio" class="btn-check m-1" id="rep_a" name="answer" value="a">
+                            <input type="radio" class="btn-check m-1" id="rep_a" name="rep_a" value="a">
                             
                             <label id="answer_b" class="btn" for="rep_b"></label>
-                            <input type="radio" name="answer" class="btn-check m-1" id="rep_b" value="b">
+                            <input type="radio" name="rep_b" class="btn-check m-1" id="rep_b" value="b">
                             
                             <label id="answer_c" class="btn" for="rep_c"></label>
-                            <input type="radio" name="answer" id="rep_c" class="btn-check m-1" value="c">
+                            <input type="radio" name="rep_c" id="rep_c" class="btn-check m-1" value="c">
                             
                             <label id="answer_d" class="btn" for="rep_d"></label>
-                            <input type="radio" name="answer" class="btn-check m-1" id="rep_d" value="d">
+                            <input type="radio" name="rep_d" class="btn-check m-1" id="rep_d" value="d">
                             
                             <label id="answer_e" class="btn" for="rep_e"></label>
-                            <input type="radio" name="answer" class="btn-check m-1" id="rep_e" value="e" class="d-none">
+                            <input type="radio" name="rep_e" class="btn-check m-1" id="rep_e" value="e" class="d-none">
                             
                             <label id="answer_f" class="btn" for="rep_f"></label>
-                            <input type="radio" name="answer" class="btn-check m-1" id="rep_f" value="f" class="d-none">
+                            <input type="radio" name="rep_f" class="btn-check m-1" id="rep_f" value="f" class="d-none">
                     </form>
 
                     <button id="validation-question" class="btn btn-outline-success">Valider</button>

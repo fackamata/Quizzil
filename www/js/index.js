@@ -17,14 +17,6 @@ const BTN_CHOICE_ALL_CAT = document.getElementById("choice-all-cat");
 const NEXT_QUESTION = document.getElementById("next-question");
 const VALID_QUESTION = document.getElementById("validation-question");
 
-// const ANSWER_A = document.getElementById("answer_a");
-// const ANSWER_B = document.getElementById("answer_b");
-// const ANSWER_C = document.getElementById("answer_c");
-// const ANSWER_D = document.getElementById("answer_d");
-// const ANSWER_E = document.getElementById("answer_e");
-// const ANSWER_F = document.getElementById("answer_f");
-// const HINT = document.getElementById("hint");
-
 document.addEventListener('deviceready', onDeviceReady, false);
 
 function onDeviceReady() {
@@ -36,28 +28,8 @@ function onDeviceReady() {
   BTN_QUIZZ.addEventListener("click", display_quizz_section)
   BTN_STAT.addEventListener("click", display_stats_section)
   BTN_HOME.addEventListener("click", display_home_section)
-  // bouton de selection de quizz
-  // NEXT_QUESTION.addEventListener("click", increment_id_question)
-  // bouton toute categorie
-  // var num_quest = 0;
+  // bouton choix du quizz
   BTN_CHOICE_ALL_CAT.addEventListener("click", start_quizz)
-//   BTN_CHOICE_ALL_CAT.addEventListener("click", async function(){
-//     let quests = await get_questions(20);
-//     // console.log(quests);
-//     // console.log(typeof(quests));
-//     let lst_quest = save_question(quests);
-    
-//     for (let i = 0; i < lst_quest.length; i++) {
-//       let quest_to_show = JSON.parse(localStorage.getItem(lst_quest[i]));
-//       console.log(quest_to_show);
-//       display_question(quest_to_show);
-//       console.log()
-      
-//     }
-// })
-  
-  // bouton de la section quizz
-  // HINT.addEventListener("click", display_hint);
 
 
   document.getElementById("categories_btn").addEventListener("click", display_categories);
@@ -66,8 +38,7 @@ function onDeviceReady() {
 
 }
 
-// checkConnection();
-
+// logic pour le quizz
 async function start_quizz(){
   console.log("start quizz fonctionne  ! ");
 
@@ -96,7 +67,6 @@ async function start_quizz(){
   
   display_question(quest_to_show);
   selected = false; 
-  // while  (! selected){
   let lst_rep = ['rep_a', 'rep_b', 'rep_c', 'rep_d','rep_e','rep_f'];
 
   //   lst_rep.forEach(el => {

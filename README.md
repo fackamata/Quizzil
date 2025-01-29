@@ -43,12 +43,11 @@ Depending on your setup, you can include Bootstrap Icons in a handful of ways.
 
 #### cordova-plugin-network-information
 
-L'objet connection, exposé via `navigator.connection`, 
-
-The connection object, exposed via navigator.connection, provides information about the device's cellular and wifi connection.
+L'objet connexion (navigator.connection) donne des informations à propos de la connection wifi ou cellulaire
 
 ##### installation
 pour utiliser le plugin l'installer avec la commande suivante :
 ```bash
 cordova plugin add cordova-plugin-network-information
 ```
+
