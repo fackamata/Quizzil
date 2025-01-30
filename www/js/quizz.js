@@ -5,69 +5,41 @@ async function begin_quizz(){
     // on récupère la liste des id des questions à afficher
     let lst_ids_question = await get_list_question_from_storage();
     let total_of_question = lst_ids_question.length;
-    console.log("nombre de question : " + lst_ids_question.length);
+    localStorage.setItem('liste_question_en_cours', [lst_ids_question]);
+    localStorage.setItem('nombre_question_en_cours', total_of_question);
+
+    console.log("nombre de question : " + total_of_question);
     // init variable
     let nb_point = 0;
-    // let still_playing = true;
+    let current_question_id = 0;
     // let chck_msg = "";
     
     let num_question = 0;
-    // while (still_playing) {
-        for (let i = 1; i < lst_ids_question.length; i++) {
-        // on récupère la question dans le local storage
-        let question = localStorage.getItem(lst_ids_question[num_question]);
-        console.log("question actuelle : " + question);
+    // for (let i = 1; i < lst_ids_question.length; i++) {
+    // on récupère la question dans le local storage
+    let question = localStorage.getItem(lst_ids_question[num_question]);
         // on affiche la quesiton
-        if(question){
+    if(question){
             
-            display_question(question, num_question);
-            
-            // let inputs = document.querySelector('input');
-            const VALID_BTN = document.getElementById("validation-question");
-            // on check si on a des réponses pour activer le bouton de validation
-            let inputs = document.getElementsByName('answer');
-            console.log(inputs);
-            
-            // on check la réponse avec l'objet des réponses
-            for (let i = 0; i < inputs.length; i++) {
-                const el = inputs[i];
-                console.log(el)
-                
-            }
-            inputs.addEventListener("change", () => {
-
-                VALID_BTN.removeAttribute("disabled");
-            });
-
-            // VALID_BTN.addEventListener("click", )
-            // const NEXT_BTN = document.getElementById("validation-question");
-
-            // inputs.addEventListener("input", () => {
-                // console.log(NEXT_BTN.value);
-                // console.log(VALID_BTN.value);
-                // num_question = VALID_BTN.addEventListener("click", () => { return num_question +=1 })
-                // console.log(VALID_BTN.value);
-                // num_question = VALID_BTN.value;
-                // const RES_CHECK = check_answer(question, num_question,total_of_question, nb_point);
-                // chck_msg = RES_CHECK[0];
-                // nb_point = RES_CHECK[1];
-                
-                // if (chck_msg === "no answer"){
-                //     alert('pas de réponse sélectionné');
-                // }else 
-                // if (chck_msg === "end quizz") {
-                //     // still_playing = false;
-                //     console.log("fin du jeu on sort de la boucle");
-                //     display_result_quizz(nb_point, lst_ids_question.length )
-                // }else{
-                //     // on passe à la question suivante
-                //     console.log('on passe à la question suivante');
-                //     num_question += 1;
-                //     // display_question(question, num_question)
-                // }
-            // })
-        }
+        display_question(question, num_question);
     }
+            // // let inputs = document.querySelector('input');
+            // const VALID_BTN = document.getElementById("validation-question");
+            // // on check si on a des réponses pour activer le bouton de validation
+            // let inputs = document.getElementsByName('answer');
+            // console.log(inputs);
+            
+            // // on check la réponse avec l'objet des réponses
+            // for (let i = 0; i < inputs.length; i++) {
+            //     const el = inputs[i];
+            //     console.log(el);
+            //     console.log(el.checked);
+            //     if(el.checked){
+            //         VALID_BTN.removeAttribute("disabled");
+            //     }
+            // }
+    // }
+    // }
 
     // on fini le quizz
     // end_quizz();
@@ -172,7 +144,11 @@ function display_result_quizz(points, tot_quest){
  */
 function display_question(quest, question_number){
     console.log("function display question working ! ");
-    
+    // lst_quest = JSON.parse(localStorage.getItem('liste_question_en_cours'));
+    // console.log(lst_quest);
+    // quest = JSON.parse( localStorage.getItem(lst_quest[question_number] ));
+    quest = JSON.parse(quest);
+    console.log(quest);
     // on affiche la section des questions
     if ( !VIEW_SELECT_QUIZZ.classList.contains('d-none') ){
         VIEW_SELECT_QUIZZ.classList.add('d-none');
@@ -183,9 +159,8 @@ function display_question(quest, question_number){
     if ( VIEW_QUESTION.classList.contains('d-none') ){
         VIEW_QUESTION.classList.remove('d-none');
     }
-
-    // VIEW_QUESTION.classList.remove("d-none");
-    console.log(VIEW_QUESTION.classList);
+    // console.log(VIEW_QUESTION.classList);
+    
     // on affiche la question
     document.getElementById("question-display").innerText = quest.question;
     
@@ -203,8 +178,8 @@ function display_question(quest, question_number){
       if (quest.answers[key] !== null) {
         FORM_TAG.innerHTML += `
           <div>
-            <input type="radio" name="answer" value="${key}" id="${key}">
             <label for="${key}">${quest.answers[key]}</label>
+            <input type="radio" name="answer" value="${key}" id="${key}">
           </div>
         `;
       }
@@ -224,7 +199,6 @@ function display_question(quest, question_number){
     // on affiche le hint s'y'en a un
     if (quest.tip){
         document.getElementById("hint").addEventListener("click", () => { alert(question.tip) });
-        // HINT_TAG.addEventListener("click", () => { alert(question.tip) });
     }
 
 };

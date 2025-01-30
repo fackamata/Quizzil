@@ -61,6 +61,7 @@ async function get_list_question_from_storage() {
   let last_questions = [];
   
   // init localStorage
+
   if (localStorage.getItem('lst_id_question') == null) {
     localStorage.setItem('lst_id_question', JSON.stringify([0]))
   }
@@ -94,6 +95,7 @@ async function get_list_question_from_storage() {
   console.log("last question liste : " + last_questions);
   // enregistrement dans le localStorage de la liste d'id
   localStorage.setItem('lst_id_question', JSON.stringify(lst_id_question));
+  localStorage.setItem('liste_question_en_cours', JSON.stringify(last_questions));
   return last_questions;
 }
 
@@ -148,8 +150,11 @@ async function get_random() {
   console.log(" ! on get random!");
 
   let random = await get_questions(1);
+  console.log(random[0]);
+  console.log(typeof(random[0]));
+  // VIEW_QUESTION.classList.remove('d-none');
 
-  display_question(random[0],0); // envoie en objet
+  display_question(JSON.stringify(random[0])); // envoie en objet
 
 }
 
@@ -200,10 +205,7 @@ async function get_questions(lim=20) {
 async function fetch_data(url) {
   try {
     let response = await fetch(url);
-    console.log(typeof(response));
     let result = await response.text();
-    // console.log(result);
-    // console.log(typeof(result));
     return result;
   } catch (error) {
     console.error(error);
