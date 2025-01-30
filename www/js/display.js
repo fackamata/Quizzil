@@ -1,5 +1,3 @@
-
-// import Chart from 'chart.js/auto'
 // section
 const SECTION_HOME = document.getElementById("home-section");
 const SECTION_STATS = document.getElementById("statistic-section");
@@ -10,11 +8,7 @@ const SECTION_QUIZZ = document.getElementById("quizz-section");
 const VIEW_QUESTION = document.getElementById("view-question");
 const VIEW_SELECT_QUIZZ = document.getElementById("view-select-quizz");
 const VIEW_RESULT = document.getElementById("view-result");
-// vue pour une question
-// const QUESTION_TAG = document.getElementById("question");
-// const DESCRIPT_TAG = document.getElementById("description");
 
-// console.log("display js working");
 
 /**
  * Affiche la section quizz
@@ -72,33 +66,24 @@ function display_stats_section() {
     // show_statistic();
 
     (async function() {
-    // const data = [
-    //     { year: 2010, count: 10 },
-    //     { year: 2011, count: 20 },
-    //     { year: 2012, count: 15 },
-    //     { year: 2013, count: 25 },
-    //     { year: 2014, count: 22 },
-    //     { year: 2015, count: 30 },
-    //     { year: 2016, count: 28 },
-    // ];
-    let user = localStorage.getItem('user')
-    const DATA = user.resultat;
+        let user = localStorage.getItem('user')
+        const DATA = user.resultat;
 
-    new Chart(
-        document.getElementById('stat-chart'),
-        {
-        type: 'bar',
-        DATA: {
-            labels: DATA.map(row => row.quizz),
-            datasets: [
+        new Chart(
+            document.getElementById('stat-chart'),
             {
-                label: 'pourcentage de bonne réponse',
-                data: DATA.map(row => row.percent)
+            type: 'bar',
+            DATA: {
+                labels: DATA.map(row => row.quizz),
+                datasets: [
+                {
+                    label: 'pourcentage de bonne réponse',
+                    data: DATA.map(row => row.percent)
+                }
+                ]
             }
-            ]
-        }
-        }
-    );
+            }
+        );
     })();
 }
 
@@ -223,7 +208,7 @@ function display_question(quest, num_question){
     // et le bouton submit
     FORM_TAG.innerHTML += `
         <button id="validation-question" type="submit" 
-                class="btn btn-outline-success" value="${num_question}"
+                class="btn btn-outline-success" 
                 >Valider
         </button>`;
 

@@ -1,4 +1,3 @@
-
 /**
  * fonction pour lancer un quizz
  */
@@ -15,36 +14,39 @@ async function begin_quizz(){
     let num_question = 0;
     // while (still_playing) {
         for (let i = 1; i < lst_ids_question.length; i++) {
-            // for (let i = 0; i < lst_ids_question.length; i++) {
-        // const id = lst_ids_question[i];
-        // console.log("id in storage to get : " + id);
-    // }
         // on récupère la question dans le local storage
-        // let question = JSON.parse(localStorage.getItem[lst_ids_question[i]]);
         let question = localStorage.getItem(lst_ids_question[num_question]);
-        console.log(question);
-        console.log("type de la question");
-        // let question = localStorage.getItem[lst_ids_question[num_question]];
         console.log("question actuelle : " + question);
         // on affiche la quesiton
         if(question){
+            
             display_question(question, num_question);
-            // display_question(questions[num_question], num_question);
-            // on check la réponse avec l'objet des réponses
-
-            let inputs = document.querySelector('input');
-            console.log(inputs);
+            
+            // let inputs = document.querySelector('input');
             const VALID_BTN = document.getElementById("validation-question");
-            const NEXT_BTN = document.getElementById("validation-question");
-
+            // on check si on a des réponses pour activer le bouton de validation
+            let inputs = document.getElementsByName('answer');
+            console.log(inputs);
+            
+            // on check la réponse avec l'objet des réponses
+            for (let i = 0; i < inputs.length; i++) {
+                const el = inputs[i];
+                console.log(el)
+                
+            }
             inputs.addEventListener("change", () => {
 
-            // inputs.addEventListener("input", () => {
                 VALID_BTN.removeAttribute("disabled");
-                console.log(NEXT_BTN.value);
-                console.log(VALID_BTN.value);
-                num_question = VALID_BTN.addEventListener("click", () => { return num_question +=1 })
-                console.log(VALID_BTN.value);
+            });
+
+            // VALID_BTN.addEventListener("click", )
+            // const NEXT_BTN = document.getElementById("validation-question");
+
+            // inputs.addEventListener("input", () => {
+                // console.log(NEXT_BTN.value);
+                // console.log(VALID_BTN.value);
+                // num_question = VALID_BTN.addEventListener("click", () => { return num_question +=1 })
+                // console.log(VALID_BTN.value);
                 // num_question = VALID_BTN.value;
                 // const RES_CHECK = check_answer(question, num_question,total_of_question, nb_point);
                 // chck_msg = RES_CHECK[0];
@@ -52,21 +54,22 @@ async function begin_quizz(){
                 
                 // if (chck_msg === "no answer"){
                 //     alert('pas de réponse sélectionné');
-                // }else if (chck_msg === "end quizz") {
-                //     still_playing = false;
+                // }else 
+                // if (chck_msg === "end quizz") {
+                //     // still_playing = false;
                 //     console.log("fin du jeu on sort de la boucle");
                 //     display_result_quizz(nb_point, lst_ids_question.length )
                 // }else{
                 //     // on passe à la question suivante
                 //     console.log('on passe à la question suivante');
                 //     num_question += 1;
+                //     // display_question(question, num_question)
                 // }
-            })
+            // })
         }
     }
 
     // on fini le quizz
-    display_result_quizz(nb_point, num_question + 1);
     // end_quizz();
 }
 
@@ -131,11 +134,6 @@ function check_answer(one_question, num_q_actual, nb_questions, score){
     return [message, score];
 }
 
-// function end_quizz(){
-//     // afficher la page de résultat
-//     display_result_quizz();
-
-// }
 
 /**
  * affiche la page de résultat du quizz
@@ -182,11 +180,11 @@ function display_question(quest, question_number){
     if ( !SECTION_HOME.classList.contains('d-none') ){
         SECTION_HOME.classList.add('d-none');
     }
-    // if ( VIEW_QUESTION.classList.contains('d-none') ){
-    //     VIEW_QUESTION.classList.remove('d-none');
-    // }
+    if ( VIEW_QUESTION.classList.contains('d-none') ){
+        VIEW_QUESTION.classList.remove('d-none');
+    }
 
-    VIEW_QUESTION.classList.remove("d-none");
+    // VIEW_QUESTION.classList.remove("d-none");
     console.log(VIEW_QUESTION.classList);
     // on affiche la question
     document.getElementById("question-display").innerText = quest.question;

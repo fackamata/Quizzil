@@ -102,6 +102,8 @@ import Chart from 'chart.js/auto'
 
 #### cordova-plugin-network-information
 
+[doc network info](https://cordova.apache.org/docs/en/11.x/reference/cordova-plugin-network-information/)
+
 L'objet connexion (navigator.connection) donne des informations à propos de la connection wifi ou cellulaire
 
 ##### installation

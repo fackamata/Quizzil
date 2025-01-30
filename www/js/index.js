@@ -58,8 +58,8 @@ function onDeviceReady() {
  */
 async function get_list_question_from_storage() {
   // console.log(" ! in save question!");
+  let last_questions = [];
   
-  let last_questions = [0];
   // init localStorage
   if (localStorage.getItem('lst_id_question') == null) {
     localStorage.setItem('lst_id_question', JSON.stringify([0]))
@@ -76,12 +76,15 @@ async function get_list_question_from_storage() {
     for (let i = 0; i < questions.length; i++) {
       // on ajouter les questions non encore présente dans le localStorage
       // console.log(questions[i]);
-      if ( ! lst_id_question.includes(questions[i].id) ) {
+      const ID_Q = questions[i].id
+      if ( ! lst_id_question.includes(ID_Q) ) {
         // on ajoute la questions avec comme clé son id
-        localStorage.setItem(questions[i].id, JSON.stringify(questions[i]));
+        localStorage.setItem(ID_Q, JSON.stringify(questions[i]));
+        // on ajoute l'id à notre liste d'id de question
+        lst_id_question.push(ID_Q);
       }
       // on enregistre l'id de question dans notre liste d'id en storage
-      last_questions.push(questions[i].id);
+      last_questions.push(ID_Q);
     }
   } catch (error) {
     alert("Vous devez activez les données ou le WIFI");
@@ -234,20 +237,6 @@ function checkConnection() {
     ALERT_NO_CONNECTION.classList.add("d-none");  
   }
 }
-
-
-// function chck_permission(){
-//   console.log('on est dans check permission');
-//   let permissions = cordova.plugins.permissions;
-//   permissions.hasPermission(permissions.ACCESS.WIFI.STATE, function( status ){
-//     if ( status.hasPermission ) {
-//       console.log("Yes :D ");
-//     }
-//     else {
-//       console.warn("No :( ");
-//     }
-//   });
-// }
 
 
 function onPause() {
