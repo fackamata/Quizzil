@@ -1,3 +1,5 @@
+
+// import Chart from 'chart.js/auto'
 // section
 const SECTION_HOME = document.getElementById("home-section");
 const SECTION_STATS = document.getElementById("statistic-section");
@@ -26,6 +28,9 @@ function display_quizz_section() {
     if (!SECTION_STATS.classList.contains('d-none')){
         SECTION_STATS.classList.add('d-none');
     }
+    if ( !SECTION_CHECKBOX.classList.contains('d-none')){
+        SECTION_CHECKBOX.classList.add('d-none');
+    }
     SECTION_QUIZZ.classList.remove('d-none');
 }
 
@@ -40,6 +45,9 @@ function display_home_section() {
     }
     if (!SECTION_STATS.classList.contains('d-none')){
         SECTION_STATS.classList.add('d-none');
+    }
+    if ( !SECTION_CHECKBOX.classList.contains('d-none')){
+        SECTION_CHECKBOX.classList.add('d-none');
     }
     SECTION_HOME.classList.remove('d-none');
 }
@@ -56,10 +64,49 @@ function display_stats_section() {
     if (!SECTION_HOME.classList.contains('d-none')){
         SECTION_HOME.classList.add('d-none');
     }
+    if ( !SECTION_CHECKBOX.classList.contains('d-none')){
+        SECTION_CHECKBOX.classList.add('d-none');
+    }
     SECTION_STATS.classList.remove('d-none');
+    // on appel la fonction de chart js
+    // show_statistic();
+
+    (async function() {
+    // const data = [
+    //     { year: 2010, count: 10 },
+    //     { year: 2011, count: 20 },
+    //     { year: 2012, count: 15 },
+    //     { year: 2013, count: 25 },
+    //     { year: 2014, count: 22 },
+    //     { year: 2015, count: 30 },
+    //     { year: 2016, count: 28 },
+    // ];
+    let user = localStorage.getItem('user')
+    const DATA = user.resultat;
+
+    new Chart(
+        document.getElementById('stat-chart'),
+        {
+        type: 'bar',
+        DATA: {
+            labels: DATA.map(row => row.quizz),
+            datasets: [
+            {
+                label: 'pourcentage de bonne réponse',
+                data: DATA.map(row => row.percent)
+            }
+            ]
+        }
+        }
+    );
+    })();
 }
 
-
+/**
+ * Affiche les tags et retourne le nombre de tag
+ * @param {Object} tags tous les tags dispo
+ * @returns {Number} tag_cpt le nombre de tag
+ */
 function display_tags(tags){
     if (!SECTION_HOME.classList.contains('d-none')){
         SECTION_HOME.classList.add('d-none');
@@ -67,16 +114,21 @@ function display_tags(tags){
     if (SECTION_CHECKBOX.classList.contains('d-none')){
         SECTION_CHECKBOX.classList.remove('d-none');
     }
-  
+      
+    SELECT_CHECKBOX.innerHTML = "";
+    SELECT_CHECKBOX_H2.innerText = "sélectionner vos tags préférés";
+    
+    let tag_cpt = 0
     SELECT_CHECKBOX.innerHTML = "";
     // on ajoute chaque tag en checkbox
     tags.forEach(tag => {
       SELECT_CHECKBOX.innerHTML += `
         <div> 
-          <input type="checkbox" name="${tag.name}"/>
+          <input type="checkbox" id="tag_${tag_cpt}" name="${tag.name}"/>
           <label for="${tag.name}">${tag.name}</label>
         </div>
       `
+      tag_cpt += 1;
     });
   
     SELECT_CHECKBOX.innerHTML +=`
@@ -84,8 +136,17 @@ function display_tags(tags){
                 class="btn btn-outline-success" 
                 >Valider
         </button>`;
+    
+    console.log("nombre de tags : " + tag_cpt);
+    return tag_cpt;
+
  }
 
+/**
+ * Affiche les categories et retourne le nombre de categorie
+ * @param {Object} categories tous les categories dispo
+ * @returns {Number} cat_cpt le nombre de categorie
+ */
 function display_categories(categories){
     if (!SECTION_HOME.classList.contains('d-none')){
         SECTION_HOME.classList.add('d-none');
@@ -95,7 +156,10 @@ function display_categories(categories){
     }
   
     SELECT_CHECKBOX.innerHTML = "";
+    SELECT_CHECKBOX_H2.innerText = "sélectionner vos categories préférés";
     // on ajoute chaque tag en checkbox
+
+    let cat_cpt = 0
     categories.forEach(category => {
       SELECT_CHECKBOX.innerHTML += `
         <div> 
@@ -103,6 +167,7 @@ function display_categories(categories){
           <label for="${category.name}">${category.name}</label>
         </div>
       `
+      cat_cpt += 1;
     });
   
     SELECT_CHECKBOX.innerHTML +=`
@@ -110,6 +175,8 @@ function display_categories(categories){
                 class="btn btn-outline-success" 
                 >Valider
         </button>`;
+    
+    return cat_cpt;
  }
 
 /**
@@ -123,6 +190,9 @@ function display_question(quest, num_question){
     // on affiche la section des questions
     if ( !VIEW_SELECT_QUIZZ.classList.contains('d-none') ){
         VIEW_SELECT_QUIZZ.classList.add('d-none');
+    }
+    if ( !SECTION_CHECKBOX.classList.contains('d-none')){
+        SECTION_CHECKBOX.classList.add('d-none');
     }
     if ( VIEW_QUESTION.classList.contains('d-none') ){
         VIEW_QUESTION.classList.remove('d-none');

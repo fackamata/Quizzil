@@ -31,3 +31,10 @@ footer{
     left: 5vw;
     width: 90vw;
 }
+
+#alert-no-connection{
+    position: fixed;
+    bottom: 20vh;
+    left: 5vw;
+    width: 90vw;
+}

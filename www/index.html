@@ -28,6 +28,7 @@
         <script defer src="cordova.js"></script>
         <script defer src="js/display.js"></script>
         <script defer src="js/user.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
         <script defer src="js/quizz.js"></script>
         <script defer src="js/bootstrap.min.js"></script>
         <script defer src="js/index.js"></script>
@@ -52,7 +53,7 @@
                 <div class="d-flex flex-column justify-content-evenly">
                     <input type="button" class="btn btn-outline-info" value="choix categorie" id="categories_btn">
                     <input type="button" class="btn btn-outline-info" value="quizz" id="quizz_btn">
-                    <input type="button" class="btn btn-outline-info" value="check" id="check_btn">
+                    <!-- <input type="button" class="btn btn-outline-info" value="check" id="check_btn"> -->
                     <input type="button" class="btn btn-outline-info" value="tag" id="tag_btn">
                     <input type="button" class="btn btn-outline-info" value="random" id="random_btn">
                 </div>
@@ -109,6 +110,7 @@
                     <h3 class="h3 m-2" id="description"></h3>
 
                     <form id ="question-form" class="d-flex flex-column form-check">
+                        <button id="validation-question" class="d-none btn btn-outline-success">Question suivante</button>
                     </form>
 
                     <button id="next-question" class="d-none btn btn-outline-success" value="0">Question suivante</button>
@@ -124,7 +126,8 @@
 
             -->
             <section id="statistic-section" class="d-none">
-
+                <h2 class="h2 text-center m-3">Statistiques</h2>
+                <canvas class="w-100" id="stat-chart"></canvas>
             </section>
 
         <footer>

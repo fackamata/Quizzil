@@ -1,46 +1,67 @@
 
 /**
- * fonction pour lancer toute la logique du quizz
+ * fonction pour lancer un quizz
  */
-function begin_quizz(){
+async function begin_quizz(){
     // on récupère la liste des id des questions à afficher
-    let lst_ids_question = get_list_question_from_storage();
-
-    // // // on récupère les questions
-    // let questions = get_questions_from_storage(lst_ids_question);
-    // init du numéro de question
+    let lst_ids_question = await get_list_question_from_storage();
     let total_of_question = lst_ids_question.length;
-    let num_question = 0;
+    console.log("nombre de question : " + lst_ids_question.length);
     // init variable
-    let still_playing = true;
     let nb_point = 0;
-    let chck_msg = "";
-
-
-    // console.log(num_question);
-    while (still_playing) {
+    // let still_playing = true;
+    // let chck_msg = "";
+    
+    let num_question = 0;
+    // while (still_playing) {
+        for (let i = 1; i < lst_ids_question.length; i++) {
+            // for (let i = 0; i < lst_ids_question.length; i++) {
+        // const id = lst_ids_question[i];
+        // console.log("id in storage to get : " + id);
+    // }
         // on récupère la question dans le local storage
-
-        let question = localStorage.getItem[lst_ids_question[num_question]]
-        console.log
+        // let question = JSON.parse(localStorage.getItem[lst_ids_question[i]]);
+        let question = localStorage.getItem(lst_ids_question[num_question]);
+        console.log(question);
+        console.log("type de la question");
+        // let question = localStorage.getItem[lst_ids_question[num_question]];
+        console.log("question actuelle : " + question);
         // on affiche la quesiton
         if(question){
-
             display_question(question, num_question);
             // display_question(questions[num_question], num_question);
             // on check la réponse avec l'objet des réponses
-            const RES_CHECK = check_answer(question, num_question,total_of_question, nb_point);
-            chck_msg = RES_CHECK[0];
-            nb_point = RES_CHECK[1];
-            
-            if (chck_msg === "no answer"){
-                alert('pas de réponse sélectionné');
-            }else if (chck_msg === "end quizz") {
-                still_playing = false;
-            }else{
-                // on passe à la question suivante
-                num_question += 1;
-            }
+
+            let inputs = document.querySelector('input');
+            console.log(inputs);
+            const VALID_BTN = document.getElementById("validation-question");
+            const NEXT_BTN = document.getElementById("validation-question");
+
+            inputs.addEventListener("change", () => {
+
+            // inputs.addEventListener("input", () => {
+                VALID_BTN.removeAttribute("disabled");
+                console.log(NEXT_BTN.value);
+                console.log(VALID_BTN.value);
+                num_question = VALID_BTN.addEventListener("click", () => { return num_question +=1 })
+                console.log(VALID_BTN.value);
+                // num_question = VALID_BTN.value;
+                // const RES_CHECK = check_answer(question, num_question,total_of_question, nb_point);
+                // chck_msg = RES_CHECK[0];
+                // nb_point = RES_CHECK[1];
+                
+                // if (chck_msg === "no answer"){
+                //     alert('pas de réponse sélectionné');
+                // }else if (chck_msg === "end quizz") {
+                //     still_playing = false;
+                //     console.log("fin du jeu on sort de la boucle");
+                //     display_result_quizz(nb_point, lst_ids_question.length )
+                // }else{
+                //     // on passe à la question suivante
+                //     console.log('on passe à la question suivante');
+                //     num_question += 1;
+                // }
+            })
         }
     }
 
@@ -49,16 +70,33 @@ function begin_quizz(){
     // end_quizz();
 }
 
+/**
+ * fonction qui check si la réponse est juste et renvoie un message
+ * 
+ * @param {object} one_question question dont on verifie la réponse
+ * @param {number} num_q_actual numéro de la question en cours
+ * @param {number} nb_questions nombre de question total du quizz
+ * @param {number} score score pour le mettre à jour
+ * @returns {string} message
+ */
 function check_answer(one_question, num_q_actual, nb_questions, score){
     // on selectionne tous les inputs checked
+
+
+    // let answer_checked = document.querySelector('input');
+
     let answer_checked = document.querySelector('input[name="answer"]:checked');
-    let continue_quizz = false;
+    // let answer_checked = document.querySelector('input[name="answer"]:cchecked');
+
+    // let continue_quizz = false;
     // init le message de retour
     let message = "no answer";
     // si on a des réponses
+    
     if (answer_checked) {
         let good_answers_obj = one_question.correct_answers;
         // let good_answers_lst = [];
+        console.log(good_answers_obj);
         let good_answer = "";
 
         for (const key of good_answers_obj) {
@@ -81,7 +119,7 @@ function check_answer(one_question, num_q_actual, nb_questions, score){
     
         // est-ce qu'on contine le quizz
         if (num_q_actual < nb_questions) {
-            continue_quizz = true;
+            // continue_quizz = true;
             // showQuestion();
             message = "";
         } else {
@@ -99,6 +137,12 @@ function check_answer(one_question, num_q_actual, nb_questions, score){
 
 // }
 
+/**
+ * affiche la page de résultat du quizz
+ * 
+ * @param {number} points nombre de points remporté durant le quizz
+ * @param {number} tot_quest nombre de question du quizz
+ */
 function display_result_quizz(points, tot_quest){
     if ( !VIEW_QUESTION.classList.contains('d-none') ){
         VIEW_QUESTION.classList.add('d-none');
@@ -125,19 +169,25 @@ function display_result_quizz(points, tot_quest){
 /**
  * affiche une question 
  *  
+ * @param {Number} question_number numéro de la question dans nombre total de quetsion
  * @param {object} quest objet question
  */
 function display_question(quest, question_number){
-    // console.log("function display question working ! ");
+    console.log("function display question working ! ");
     
     // on affiche la section des questions
     if ( !VIEW_SELECT_QUIZZ.classList.contains('d-none') ){
         VIEW_SELECT_QUIZZ.classList.add('d-none');
     }
-    if ( VIEW_QUESTION.classList.contains('d-none') ){
-        VIEW_QUESTION.classList.remove('d-none');
+    if ( !SECTION_HOME.classList.contains('d-none') ){
+        SECTION_HOME.classList.add('d-none');
     }
-    console.log(quest);
+    // if ( VIEW_QUESTION.classList.contains('d-none') ){
+    //     VIEW_QUESTION.classList.remove('d-none');
+    // }
+
+    VIEW_QUESTION.classList.remove("d-none");
+    console.log(VIEW_QUESTION.classList);
     // on affiche la question
     document.getElementById("question-display").innerText = quest.question;
     
@@ -162,19 +212,19 @@ function display_question(quest, question_number){
       }
     }
     // et le bouton submit
-    FORM_TAG.innerHTML += `
-        <button id="validation-question" type="submit" 
-                class="btn btn-outline-success" 
-                >Valider
-        </button>`;
     // FORM_TAG.innerHTML += `
     //     <button id="validation-question" type="submit" 
-    //             class="btn btn-outline-success" value="${question_number}"
+    //             class="btn btn-outline-success" disabled
     //             >Valider
     //     </button>`;
+    FORM_TAG.innerHTML += `
+        <button id="validation-question" type="submit" 
+                class="btn btn-outline-success" value="${question_number}"
+                >Valider
+        </button>`;
 
     // on affiche le hint s'y'en a un
-    if (question.tip){
+    if (quest.tip){
         document.getElementById("hint").addEventListener("click", () => { alert(question.tip) });
         // HINT_TAG.addEventListener("click", () => { alert(question.tip) });
     }
